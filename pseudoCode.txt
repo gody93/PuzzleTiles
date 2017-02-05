@@ -1,0 +1,5 @@
+1.Make SDL window
+2.DrawMgr
+3.Board and tiles
+4.Move
+5.Shuffle
