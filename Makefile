@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -ggdb
 LDFLAGS= -lSDL2
-SOURCES=main.cpp DrawMgr.hpp
+SOURCES=main.cpp DrawMgr.h
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 

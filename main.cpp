@@ -1,5 +1,6 @@
 #include <iostream>
-#include "DrawMgr.hpp"
+#include "DrawMgr.h"
+
 int main()
 {
 	gDrawMgr.CreateWindow();

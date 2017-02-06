@@ -1,16 +1,4 @@
-#include "DrawMgr.hpp"
-
-DrawMgr::DrawMgr()
-{
-	window = NULL;
-	screenSurface = NULL;
-
-}
-
-DrawMgr::~DrawMgr()
-{
-
-}
+#include "DrawMgr.h"
 
 void DrawMgr::CreateWindow()
 {
@@ -53,4 +41,4 @@ void DrawMgr::Quit()
 	SDL_Quit();
 }
 
-DrawMgr gDrawMgr;
+DrawMgr gGameDrawMgr;
