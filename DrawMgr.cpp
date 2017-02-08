@@ -1,5 +1,13 @@
 #include "DrawMgr.h"
 
+DrawMgr::DrawMgr()
+{}
+
+DrawMgr::~DrawMgr()
+{
+	Quit();
+}
+
 void DrawMgr::CreateWindow()
 {
 	//Initialize SDL
@@ -9,7 +17,7 @@ void DrawMgr::CreateWindow()
 	}
 	else {
 		//Create window
-		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 200, 200, SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( "Puzzle Tiles", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 200, 200, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -33,6 +41,12 @@ void DrawMgr::DrawBackground(int width, int heigh)
 
 }
 
+void DrawMgr::DrawCube()
+{
+	SDL_Rect rect;
+	rect.w = gCube.GetWidth();
+}
+
 void DrawMgr::Quit()
 {
 	//Destroy window
@@ -41,4 +55,4 @@ void DrawMgr::Quit()
 	SDL_Quit();
 }
 
-DrawMgr gGameDrawMgr;
+DrawMgr gDrawMgr;
