@@ -9,16 +9,20 @@ class DrawMgr
 public:
 	DrawMgr();
 	~DrawMgr();
-	void CreateWindow();
-	void DrawBackground(int,int);
+	bool CreateWindow();
+	void DrawBackground();
 	void DrawCube();
+	void UpdateScreen();
 	void Quit();
 
 
 private:
+	int nScreenWidth;
+	int nScreenHeight;
 
 	SDL_Window* window;
 	SDL_Surface* screenSurface;
+	SDL_Surface* cube;
 };
 
 /*The global object */

@@ -31,6 +31,9 @@ void Application::Start()
 			}
 		}
 		//Draw Background
+		gDrawMgr.DrawBackground();
+
+		gDrawMgr.DrawCube();
 
 		//UpdateScreen
 		gDrawMgr.UpdateScreen();
