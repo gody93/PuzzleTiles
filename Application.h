@@ -9,6 +9,7 @@ public:
 	~Application();
 
 	void Start();
+	void Quit();
 private:
 
 };

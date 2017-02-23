@@ -1,6 +1,6 @@
 #ifndef CUBE_H
 #define CUBE_H
-#include "SDL/SDL.h"
+#include "SDL2/SDL.h"
 #include <iostream>
 
 class Cube
@@ -10,13 +10,14 @@ public:
 	~Cube();
 	void Move();
 	void OnTouch();
-	void Draw( SDL_Surface& );
-	SDL_Surface* DrawBackground();
+	void Draw( SDL_Renderer& );
+	void Quit();
 	int GetWidth() { return width; };
 	int GetHeight() { return height; };
 
 private:
 
+	SDL_Texture* sdlTexture;
 	SDL_Surface* cube;
 	int width;
 	int height;

@@ -6,7 +6,7 @@ Application::Application()
 
 Application::~Application()
 {
-
+	Quit();
 }
 
 void Application::Start()
@@ -18,26 +18,35 @@ void Application::Start()
 	{
 		printf("Failed to initialize!\n");
 	}
-
-	while (!quit)
+	else
 	{
-		//Handle events on queue
-		while (SDL_PollEvent(&e) != 0)
+		while (!quit)
 		{
-			//User requests quit
-			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+			//Handle events on queue
+			while (SDL_PollEvent(&e) != 0)
 			{
-				quit = true;
+				//User requests quit
+				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+				{
+					quit = true;
+				}
 			}
+
+			gDrawMgr.ClearScreen();
+
+			gDrawMgr.DrawBackground();
+
+			//gDrawMgr.DrawCube();
+
+			gDrawMgr.UpdateScreen();
 		}
-		//Draw Background
-		gDrawMgr.DrawBackground();
-
-		gDrawMgr.DrawCube();
-
-		//UpdateScreen
-		gDrawMgr.UpdateScreen();
 	}
 }
+
+void Application::Quit()
+{
+	gDrawMgr.Quit();
+}
+
 
 Application gApp;

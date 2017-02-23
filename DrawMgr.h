@@ -12,6 +12,7 @@ public:
 	bool CreateWindow();
 	void DrawBackground();
 	void DrawCube();
+	void ClearScreen();
 	void UpdateScreen();
 	void Quit();
 
@@ -21,8 +22,9 @@ private:
 	int nScreenHeight;
 
 	SDL_Window* window;
-	SDL_Surface* screenSurface;
-	SDL_Surface* cube;
+	SDL_Renderer* renderer;
+	SDL_Surface* screenBackground;
+	SDL_Texture* backgroundTexture;
 };
 
 /*The global object */
