@@ -3,7 +3,6 @@
 
 int main()
 {
-	gApp.Start();
-	gApp.Quit();
+	Application::getApp()->Start();
 	return 0;
 }

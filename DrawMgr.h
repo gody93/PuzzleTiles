@@ -2,32 +2,34 @@
 #define _DRAWMGR_H
 
 #include <SDL2/SDL.h>
-#include "Cube.h"
 
 class DrawMgr
 {
 public:
-	DrawMgr();
+	static DrawMgr* getMgr();
 	~DrawMgr();
 	bool CreateWindow();
-	void DrawBackground();
-	void DrawCube();
-	void ClearScreen();
-	void UpdateScreen();
-	void Quit();
+
+
+// void DrawBackground();
+	// void DrawCube();
+	// void ClearScreen();
+	// void UpdateScreen();
+	// void Quit();
 
 
 private:
+	DrawMgr();
+	static DrawMgr* mgr;
+
 	int nScreenWidth;
 	int nScreenHeight;
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Surface* screenBackground;
-	SDL_Texture* backgroundTexture;
-};
 
-/*The global object */
-extern DrawMgr gDrawMgr;
+	// SDL_Surface* screenBackground;
+	// SDL_Texture* backgroundTexture;
+};
 
 #endif

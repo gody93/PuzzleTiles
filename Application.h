@@ -5,15 +5,20 @@
 class Application
 {
 public:
-	Application();
+	static Application* getApp();
+	void Start();
 	~Application();
 
-	void Start();
-	void Quit();
+
+
+
+// void Start();
+	// void Quit();
 private:
+	Application();
+
+	static Application* app;
 
 };
-
-extern Application gApp;
 
 #endif

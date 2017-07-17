@@ -6,15 +6,26 @@ Application::Application()
 
 Application::~Application()
 {
-	Quit();
 }
+
+
+Application* Application::getApp()
+{
+	if(!app)
+	{
+		app = new Application();
+	}
+	return app;
+}
+
+
 
 void Application::Start()
 {
 	SDL_Event e;
 	bool quit = false;
 	//Start up SDL and create window
-	if (!gDrawMgr.CreateWindow())
+	if (!DrawMgr::getMgr()->CreateWindow())
 	{
 		printf("Failed to initialize!\n");
 	}
@@ -26,27 +37,13 @@ void Application::Start()
 			while (SDL_PollEvent(&e) != 0)
 			{
 				//User requests quit
-				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+				if (e.type == SDL_QUIT)
 				{
 					quit = true;
 				}
 			}
-
-			gDrawMgr.ClearScreen();
-
-			gDrawMgr.DrawBackground();
-
-			//gDrawMgr.DrawCube();
-
-			gDrawMgr.UpdateScreen();
 		}
 	}
 }
 
-void Application::Quit()
-{
-	gDrawMgr.Quit();
-}
-
-
-Application gApp;
+Application* Application::app = NULL;

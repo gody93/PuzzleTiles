@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -ggdb
 LDFLAGS= -lSDL2
-SOURCES=main.cpp DrawMgr.cpp Cube.cpp Cube.h Application.cpp Board.cpp
+SOURCES=main.cpp DrawMgr.cpp Application.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 
