@@ -6,6 +6,8 @@ Application::Application()
 
 Application::~Application()
 {
+	delete Application::app;
+	Application::app = NULL;
 }
 
 
@@ -42,6 +44,10 @@ void Application::Start()
 					quit = true;
 				}
 			}
+			DrawMgr::getMgr()->DrawBackground();
+			DrawMgr::getMgr()->DrawCube();
+			DrawMgr::getMgr()->UpdateScreen();
+
 		}
 	}
 }
