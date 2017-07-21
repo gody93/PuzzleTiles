@@ -30,7 +30,7 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Surface* screenBackground = NULL;
 	//The image we will load and show on the screen
-	SDL_Surface* gHelloWorld = NULL;
+	SDL_Surface* background = NULL;
 
 
 //SDL_Renderer* renderer;

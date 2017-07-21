@@ -11,9 +11,9 @@ DrawMgr::~DrawMgr()
 	DrawMgr::mgr = NULL;
 
 
-	 //Deallocate surface
-    SDL_FreeSurface( gHelloWorld );
-    gHelloWorld = NULL;
+	//Deallocate surface
+    SDL_FreeSurface( background );
+    background = NULL;
 
     //Destroy window
     SDL_DestroyWindow( window );
@@ -70,10 +70,10 @@ bool DrawMgr::loadMedia()
     bool success = true;
 
     //Load splash image
-    gHelloWorld = SDL_LoadBMP( "img/wallpaper.bmp" );
-    if( gHelloWorld == NULL )
+    background = SDL_LoadBMP( "img/wallpaper.bmp" );
+    if( background == NULL )
     {
-        printf( "Unable to load image %s! SDL Error: %s\n", "02_getting_an_image_on_the_screen/hello_world.bmp", SDL_GetError() );
+        printf( "Unable to load image %s! SDL Error: %s\n", "img", SDL_GetError() );
         success = false;
     }
 
@@ -87,76 +87,7 @@ void DrawMgr::UpdateScreen()
 
 void DrawMgr::DrawBackground()
 {
-	SDL_BlitScaled( gHelloWorld, NULL, screenBackground, NULL );
+	SDL_BlitScaled( background, NULL, screenBackground, NULL );
 }
 
-void DrawMgr::DrawCube()
-{
-	SDL_Surface* cube;
-
-	/* Creating the surface. */
-	cube = SDL_CreateRGBSurface(0, 50, 50, 32, 0, 0, 0, 0);
-
-	/* Filling the surface with red color. */
-	SDL_FillRect(cube, NULL, SDL_MapRGB(cube->format, 255, 0, 0));
-
-	SDL_BlitSurface( cube, NULL, screenBackground, NULL);
-
-}
 DrawMgr* DrawMgr::mgr = NULL;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// void DrawMgr::DrawBackground()
-// {
-// 	//SDL_SetRenderDrawColor(renderer, 100, 10, 0, 255);
-// 	screenBackground = SDL_CreateRGBSurface(0, nScreenWidth, nScreenHeight, 32, 0, 0, 0, 0);
-
-// 	SDL_FillRect(screenBackground, NULL, SDL_MapRGB(screenBackground->format, 120, 100, 10) );
-
-// 	if(screenBackground == NULL)
-// 	{
-// 		std::cout << "SDL_Error: " << SDL_GetError() << std::endl;
-// 	}
-
-
-// 	backgroundTexture = SDL_CreateTextureFromSurface(renderer, screenBackground);
-
-// 	SDL_FreeSurface(screenBackground);
-
-// 	SDL_RenderCopy(renderer,backgroundTexture, NULL, NULL);
-
-// }
-
-// void DrawMgr::DrawCube()
-// {
-// 	gCube.Draw(*renderer);
-// }
-
-// void DrawMgr::Quit()
-// {
-// }
-
-// void DrawMgr::ClearScreen()
-// {
-// 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-// 	SDL_RenderClear(renderer);
-// }
-
-// void DrawMgr::UpdateScreen()
-// {
-// 	SDL_RenderPresent(renderer);
-// }

@@ -9,11 +9,6 @@ public:
 	void Start();
 	~Application();
 
-
-
-
-// void Start();
-	// void Quit();
 private:
 	Application();
 
