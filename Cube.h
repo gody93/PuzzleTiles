@@ -6,6 +6,7 @@ class Cube
 {
 public:
 	static Cube* getCube();
+	void DrawCube();
 	~Cube();
 
 private:
