@@ -43,9 +43,16 @@ void Application::Start()
 				{
 					quit = true;
 				}
+				else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+				{
+					if (e.key.keysym.sym == SDLK_q)
+					{
+					}
+				}
 			}
 			DrawMgr::getMgr()->DrawBackground();
-			DrawMgr::getMgr()->DrawCube();
+			DrawMgr::getMgr()->DrawBoard( Cube::getCube()->DrawBoard() );
+			DrawMgr::getMgr()->DrawTile( Cube::getCube()->DrawCube() );
 			DrawMgr::getMgr()->UpdateScreen();
 
 		}

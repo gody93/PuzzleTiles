@@ -1,6 +1,8 @@
 ﻿#ifndef APPLICATION_H
 #define APPLICATION_H
+
 #include "DrawMgr.h"
+#include "Cube.h"
 
 class Application
 {

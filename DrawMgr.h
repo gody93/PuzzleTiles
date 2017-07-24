@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "Cube.h"
 
 class DrawMgr
 {
@@ -14,10 +15,9 @@ public:
 
 
 	void DrawBackground();
-	void DrawCube();
-	// void ClearScreen();
+	void DrawBoard(SDL_Surface*);
+	void DrawTile(SDL_Surface*);
 	void UpdateScreen();
-	// void Quit();
 
 
 private:
@@ -29,14 +29,8 @@ private:
 
 	SDL_Window* window = NULL;
 	SDL_Surface* screenBackground = NULL;
-	//The image we will load and show on the screen
 	SDL_Surface* background = NULL;
 
-
-//SDL_Renderer* renderer;
-
-
-	// SDL_Texture* backgroundTexture;
 };
 
 #endif
