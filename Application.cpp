@@ -38,6 +38,7 @@ void Application::Start()
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
+				Cube::getCube()->handleEvent(e);
 				//User requests quit
 				if (e.type == SDL_QUIT)
 				{
@@ -45,16 +46,19 @@ void Application::Start()
 				}
 				else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 				{
-					if (e.key.keysym.sym == SDLK_q)
+					if (e.key.keysym.sym == SDLK_ESCAPE)
 					{
+						quit = true;
+						std::cout << "Game Quits \n";
 					}
 				}
+
 			}
+
 			DrawMgr::getMgr()->DrawBackground();
 			DrawMgr::getMgr()->DrawBoard( Cube::getCube()->DrawBoard() );
 			DrawMgr::getMgr()->DrawTile( Cube::getCube()->DrawCube() );
 			DrawMgr::getMgr()->UpdateScreen();
-
 		}
 	}
 }

@@ -92,7 +92,9 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawTile( SDL_Surface* tile)
 {
-	SDL_BlitSurface( tile, NULL, screenBackground, NULL);
+	SDL_Rect temp = Cube::getCube()->getTilePos();
+
+	SDL_BlitSurface( tile, NULL, screenBackground, &temp);
 }
 
 void DrawMgr::DrawBoard( SDL_Surface* board)

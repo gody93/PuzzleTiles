@@ -9,9 +9,16 @@ public:
 	SDL_Surface* DrawCube();
 	SDL_Surface* DrawBoard();
 
-	void setBoardPos(int,int);
+	void moveDown();
+	void handleEvent(SDL_Event&);
 
+	bool checkCollision();
+
+	void setBoardPos(int,int);
 	SDL_Rect getBoardPos();
+
+	SDL_Rect getTilePos();
+
 	~Cube();
 
 private:
@@ -24,7 +31,10 @@ private:
 	int m_nBoardWidth;
 	int m_nBoardHeight;
 
+	int offset;
+
 	SDL_Rect boardPos;
+	SDL_Rect tilePos;
 
 	SDL_Surface* tile;
 	SDL_Surface* boardBackground;

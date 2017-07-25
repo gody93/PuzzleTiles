@@ -19,6 +19,8 @@ public:
 	void DrawTile(SDL_Surface*);
 	void UpdateScreen();
 
+	int getScreenWidth() { return nScreenWidth; }
+	int getScreenHeight() { return nScreenHeight; }
 
 private:
 	DrawMgr();
