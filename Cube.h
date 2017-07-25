@@ -39,6 +39,10 @@ private:
 	SDL_Surface* tile;
 	SDL_Surface* boardBackground;
 
+	SDL_Point mousePos;
+	bool isInside;
+	bool isSelected;
+
 
 };
 

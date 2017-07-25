@@ -2,6 +2,14 @@
 
 Cube::Cube() : m_nCubeWidth(45), m_nCubeHeight(45), m_nBoardWidth(245), m_nBoardHeight(245), offset(5)
 {
+
+	isInside = false;
+	isSelected = false;
+
+	mousePos.x = tilePos.x;
+	mousePos.y = tilePos.y;
+
+
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
 
@@ -58,6 +66,23 @@ void Cube::handleEvent(SDL_Event &e)
 		default:
 			break;
 		}
+	}
+	else if( e.type == SDL_MOUSEMOTION)
+	{
+		int x,y;
+		SDL_GetMouseState(&x, &y);
+		//Mouse is right of the button
+		if( x < mousePos.x + m_nCubeWidth )
+		{
+			isInside = true;
+			std::cout << "I'm in\n\n\n";
+		}
+		else
+		{
+			std::cout << "I'm out \n\n\n";
+		}
+
+
 	}
 }
 
