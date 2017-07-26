@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "Cube.h"
+#include "Board.h"
 
 class DrawMgr
 {
@@ -15,8 +16,7 @@ public:
 
 
 	void DrawBackground();
-	void DrawBoard(SDL_Surface*);
-	void DrawTile(SDL_Surface*);
+	void DrawBoard();
 	void UpdateScreen();
 
 	int getScreenWidth() { return nScreenWidth; }

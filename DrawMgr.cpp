@@ -90,17 +90,11 @@ void DrawMgr::DrawBackground()
 	SDL_BlitScaled( background, NULL, screenBackground, NULL );
 }
 
-void DrawMgr::DrawTile( SDL_Surface* tile)
+void DrawMgr::DrawBoard()
 {
-	SDL_Rect temp = Cube::getCube()->getTilePos();
+	SDL_Rect temp = Board::getBoard()->getBoardPos();
 
-	SDL_BlitSurface( tile, NULL, screenBackground, &temp);
+	SDL_BlitSurface( Board::getBoard()->getBoardSurface(), NULL, screenBackground, &temp );
 }
 
-void DrawMgr::DrawBoard( SDL_Surface* board)
-{
-	SDL_Rect temp = Cube::getCube()->getBoardPos();
-
-	SDL_BlitSurface( board, NULL, screenBackground, &temp );
-}
 DrawMgr* DrawMgr::mgr = NULL;

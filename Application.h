@@ -3,6 +3,7 @@
 
 #include "DrawMgr.h"
 #include "Cube.h"
+#include "Board.h"
 
 class Application
 {

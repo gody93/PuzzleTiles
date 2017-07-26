@@ -38,7 +38,7 @@ void Application::Start()
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
-				Cube::getCube()->handleEvent(e);
+				Cube::getTile()->handleEvent(e);
 				//User requests quit
 				if (e.type == SDL_QUIT)
 				{
@@ -56,8 +56,7 @@ void Application::Start()
 			}
 
 			DrawMgr::getMgr()->DrawBackground();
-			DrawMgr::getMgr()->DrawBoard( Cube::getCube()->DrawBoard() );
-			DrawMgr::getMgr()->DrawTile( Cube::getCube()->DrawCube() );
+			DrawMgr::getMgr()->DrawBoard();
 			DrawMgr::getMgr()->UpdateScreen();
 		}
 	}

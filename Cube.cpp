@@ -1,20 +1,16 @@
 #include "Cube.h"
 
-Cube::Cube() : m_nCubeWidth(45), m_nCubeHeight(45), m_nBoardWidth(245), m_nBoardHeight(245), offset(5)
+Cube::Cube() : m_nCubeWidth(45), m_nCubeHeight(45), offset(5)
 {
 
 	isInside = false;
 	isSelected = false;
 
+	this->tilePos = Board::getBoard()->getBoardPos();
+//	this->tilePos.y = 127;
+
 	mousePos.x = tilePos.x;
 	mousePos.y = tilePos.y;
-
-
-	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
-	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
-
-	this->tilePos.x = this->boardPos.x;
-	this->tilePos.y = this->boardPos.y;
 }
 
 Cube::~Cube()
@@ -23,7 +19,7 @@ Cube::~Cube()
 	Cube::cube = NULL;
 }
 
-Cube* Cube::getCube()
+Cube* Cube::getTile()
 {
 	if(!cube)
 	{
@@ -32,31 +28,20 @@ Cube* Cube::getCube()
 	return cube;
 }
 
-SDL_Surface* Cube::DrawCube()
+SDL_Surface* Cube::getTileSurface()
 {
-
-
 	/* Creating the surface. */
 	this->tile = SDL_CreateRGBSurface(0, m_nCubeHeight, m_nCubeWidth, 32, 0, 0, 0, 0);
 
 	/* Filling the surface with red color. */
-	SDL_FillRect(tile, NULL, SDL_MapRGB(tile->format, 255, 0, 0));
+	SDL_FillRect(this->tile, NULL, SDL_MapRGB(this->tile->format, 255, 0, 0));
 
 	return this->tile;
 }
 
-SDL_Surface* Cube::DrawBoard()
-{
-	this->boardBackground = SDL_CreateRGBSurface(0, m_nBoardHeight, m_nBoardWidth, 32, 0, 0, 0, 0);
-
-	SDL_FillRect(boardBackground , NULL, SDL_MapRGB(boardBackground->format, 255, 255, 0));
-
-	return this->boardBackground;
-}
-
 void Cube::handleEvent(SDL_Event &e)
 {
-	if( e.type == SDL_KEYDOWN && e.key.repeat ==0)
+	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
 	{
 		switch( e.key.keysym.sym)
 		{
@@ -67,22 +52,16 @@ void Cube::handleEvent(SDL_Event &e)
 			break;
 		}
 	}
-	else if( e.type == SDL_MOUSEMOTION)
+	else if( e.type == SDL_MOUSEBUTTONUP)
 	{
 		int x,y;
 		SDL_GetMouseState(&x, &y);
 		//Mouse is right of the button
-		if( x < mousePos.x + m_nCubeWidth )
+		if( isInsideTile(x,y) )
 		{
-			isInside = true;
-			std::cout << "I'm in\n\n\n";
+			isSelected = true;
+			std::cout << "Yay\n\n";
 		}
-		else
-		{
-			std::cout << "I'm out \n\n\n";
-		}
-
-
 	}
 }
 
@@ -103,17 +82,6 @@ void Cube::moveDown()
 	}
 }
 
-SDL_Rect Cube::getBoardPos()
-{
-	return boardPos;
-}
-
-void Cube::setBoardPos(int x, int y)
-{
-	boardPos.x += x;
-	boardPos.y += y;
-}
-
 SDL_Rect Cube::getTilePos()
 {
 	return this->tilePos;
@@ -121,11 +89,24 @@ SDL_Rect Cube::getTilePos()
 
 bool Cube::checkCollision()
 {
-	if( ( tilePos.y + m_nCubeHeight) >= (boardPos.y + m_nBoardHeight) )
+	// if( ( tilePos.y + m_nCubeHeight) >= (boardPos.y + m_nBoardHeight) )
+	// {
+	// 	return false;
+	// }
+	// return true;
+}
+
+bool Cube::isInsideTile(int x, int y)
+{
+	isInside = false;
+
+	if( ( x > mousePos.x && x < (mousePos.x + m_nCubeWidth) )  &&
+		( y > mousePos.y  && y < ( mousePos.y + m_nCubeHeight) ) )
 	{
-		return false;
+		isInside = true;
 	}
-	return true;
+
+	return isInside;
 }
 
 Cube* Cube::cube = NULL;

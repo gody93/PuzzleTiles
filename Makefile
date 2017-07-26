@@ -1,17 +1,14 @@
-CC=g++
-CFLAGS=-c -ggdb
-LDFLAGS= -lSDL2
-SOURCES=main.cpp DrawMgr.cpp Application.cpp Cube.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=main
+#src = $(shell find . -type f -name "*.cpp")
+src = $(wildcard *.cpp)
+obj = $(src:.cpp=.o)
 
-all: $(SOURCES) $(EXECUTABLE)
+CXXFLAGS = -g
+LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+main: $(obj)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+.PHONY: clean
 
 clean:
-	rm *.o main
+	rm -f $(obj) main
