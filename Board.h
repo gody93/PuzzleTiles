@@ -4,15 +4,14 @@
 #include "DrawMgr.h"
 #include "Cube.h"
 
-class Board
+class Board : public Cube
 {
 public:
 	static Board* getBoard();
+	virtual SDL_Surface* getSurface();
 	~Board();
 
-	SDL_Surface* getBoardSurface();
-	void fillBoard();
-	SDL_Rect getBoardPos();
+
 
 private:
 	Board();
@@ -24,6 +23,9 @@ private:
 	SDL_Rect boardPos;
 
 	SDL_Surface* boardBackground;
+
+	// void fillBoard();
+	// SDL_Rect getBoardPos();
 };
 
 #endif

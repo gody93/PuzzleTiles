@@ -22,25 +22,25 @@ Board* Board::getBoard()
 	return board;
 }
 
-SDL_Rect Board::getBoardPos()
-{
-	return boardPos;
-}
+// SDL_Rect Board::getBoardPos()
+// {
+// 	return boardPos;
+// }
 
-SDL_Surface* Board::getBoardSurface()
+SDL_Surface* Board::getSurface()
 {
 	this->boardBackground = SDL_CreateRGBSurface(0, m_nBoardHeight, m_nBoardWidth, 32, 0, 0, 0, 0);
 
 	SDL_FillRect(boardBackground , NULL, SDL_MapRGB(boardBackground->format, 255, 255, 0));
 
-	SDL_BlitSurface(Cube::getTile()->getTileSurface(), NULL, boardBackground, NULL);
+//	SDL_BlitSurface(Tile::getTile()->getTileSurface(), NULL, boardBackground, NULL);
 
 	return this->boardBackground;
 }
 
-void Board::fillBoard()
-{
-	Cube::getTile()->getTileSurface();
-}
+// void Board::fillBoard()
+// {
+// //	Tile::getTile()->getTileSurface();
+// }
 
 Board* Board::board = NULL;

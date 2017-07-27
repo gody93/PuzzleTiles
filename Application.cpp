@@ -38,7 +38,7 @@ void Application::Start()
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
-				Cube::getTile()->handleEvent(e);
+				//Tile::getTile()->handleEvent(e);
 				//User requests quit
 				if (e.type == SDL_QUIT)
 				{

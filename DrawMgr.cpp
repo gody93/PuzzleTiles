@@ -92,9 +92,9 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawBoard()
 {
-	SDL_Rect temp = Board::getBoard()->getBoardPos();
+//	SDL_Rect temp = Board::getBoard()->getBoardPos();
 
-	SDL_BlitSurface( Board::getBoard()->getBoardSurface(), NULL, screenBackground, &temp );
+	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, NULL );
 }
 
 DrawMgr* DrawMgr::mgr = NULL;
