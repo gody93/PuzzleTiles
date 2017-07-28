@@ -2,8 +2,8 @@
 
 Board::Board() : m_nBoardWidth(245), m_nBoardHeight(245)
 {
-	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
-	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
+	pos->x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
+	pos->y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
 }
 
 Board::~Board()
@@ -22,10 +22,16 @@ Board* Board::getBoard()
 	return board;
 }
 
-// SDL_Rect Board::getBoardPos()
-// {
-// 	return boardPos;
-// }
+SDL_Rect* Board::getPos()
+{
+	return pos;
+}
+
+void Board::setPos(int x, int y)
+{
+	pos->x = x;
+	pos->y = y;
+}
 
 SDL_Surface* Board::getSurface()
 {

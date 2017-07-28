@@ -15,6 +15,9 @@ DrawMgr::~DrawMgr()
     SDL_FreeSurface( background );
     background = NULL;
 
+	SDL_FreeSurface( screenBackground );
+	screenBackground = NULL;
+
     //Destroy window
     SDL_DestroyWindow( window );
     window = NULL;
@@ -92,9 +95,9 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawBoard()
 {
-//	SDL_Rect temp = Board::getBoard()->getBoardPos();
+	SDL_Rect* temp = Board::getBoard()->getPos();
 
-	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, NULL );
+	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, temp );
 }
 
 DrawMgr* DrawMgr::mgr = NULL;
