@@ -10,11 +10,10 @@ public:
 	~Cube();
 
 	virtual SDL_Surface* getSurface() = 0;
-	virtual SDL_Rect* getPos() = 0;
+	virtual SDL_Rect getPos() = 0;
 	virtual void setPos(int, int) = 0;
 
 protected:
-	SDL_Rect* pos;
 
 private:
 

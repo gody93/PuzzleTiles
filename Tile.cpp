@@ -6,8 +6,7 @@ Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 	isInside = false;
 	isSelected = false;
 
-	this->tilePos = Board::getBoard()->getBoardPos();
-//	this->tilePos.y = 127;
+	this->tilePos = Board::getBoard()->getPos();
 
 	mousePos.x = tilePos.x;
 	mousePos.y = tilePos.y;
@@ -28,15 +27,21 @@ Tile* Tile::getTile()
 	return tile;
 }
 
-SDL_Surface* Tile::getTileSurface()
+SDL_Surface* Tile::getSurface()
 {
 	/* Creating the surface. */
-	this->tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
+	this->m_tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
 
+		SDL_Rect temp;
+		temp.w = 20;
+		temp.h = 20;
 	/* Filling the surface with red color. */
-	SDL_FillRect(this->tile, NULL, SDL_MapRGB(this->tile->format, 255, 0, 0));
-
-	return this->tile;
+	SDL_FillRect(this->m_tile, &temp, SDL_MapRGB(this->m_tile->format, 31, 40, 7));
+	// if(isSelected)
+	// {
+	//SDL_FillRect(this->m_tile, &temp, SDL_MapRGB(this->m_tile->format, 200 , 200, 200));
+//	}
+	return this->m_tile;
 }
 
 void Tile::handleEvent(SDL_Event &e)
@@ -71,7 +76,6 @@ void Tile::moveDown()
 
 	if(checkCollision())
 	{
-
 		tilePos.y += m_nTileWidth + offset;
 
 		std::cout << "Moves Down \n\n";
@@ -82,28 +86,36 @@ void Tile::moveDown()
 	}
 }
 
-SDL_Rect Tile::getTilePos()
+SDL_Rect Tile::getPos()
 {
 	return this->tilePos;
 }
 
+void Tile::setPos(int x, int y)
+{
+	tilePos.x = x;
+	tilePos.y = y;
+}
+
 bool Tile::checkCollision()
 {
-	// if( ( tilePos.y + m_nTileHeight) >= (boardPos.y + m_nBoardHeight) )
-	// {
-	// 	return false;
-	// }
-	// return true;
+	if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos().y + Board::getBoard()->getBoardHeight()) )
+	{
+		return false;
+	}
+	return true;
 }
 
 bool Tile::isInsideTile(int x, int y)
 {
 	isInside = false;
+	isSelected = false;
 
 	if( ( x > mousePos.x && x < (mousePos.x + m_nTileWidth) )  &&
 		( y > mousePos.y  && y < ( mousePos.y + m_nTileHeight) ) )
 	{
 		isInside = true;
+		isSelected = true;
 	}
 
 	return isInside;

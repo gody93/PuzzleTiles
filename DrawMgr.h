@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
-#include "Cube.h"
 #include "Board.h"
 
 class DrawMgr

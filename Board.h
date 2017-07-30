@@ -3,14 +3,18 @@
 
 #include "DrawMgr.h"
 #include "Cube.h"
+#include "Tile.h"
 
 class Board : public Cube
 {
 public:
 	static Board* getBoard();
 	virtual SDL_Surface* getSurface();
-	virtual SDL_Rect* getPos();
+	virtual SDL_Rect getPos();
 	virtual void setPos(int, int);
+
+	int getBoardHeight() const;
+	int getBoardWidth() const;
 
 	~Board();
 

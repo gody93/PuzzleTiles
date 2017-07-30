@@ -38,22 +38,15 @@ void Application::Start()
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
-				//Tile::getTile()->handleEvent(e);
+				Tile::getTile()->handleEvent(e);
 				//User requests quit
-				if (e.type == SDL_QUIT)
+				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) )
 				{
 					quit = true;
+					std::cout << "Game Quits \n";
 				}
-				else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-				{
-					if (e.key.keysym.sym == SDLK_ESCAPE)
-					{
-						quit = true;
-						std::cout << "Game Quits \n";
-					}
-				}
-
 			}
+
 
 			DrawMgr::getMgr()->DrawBackground();
 			DrawMgr::getMgr()->DrawBoard();
@@ -61,5 +54,6 @@ void Application::Start()
 		}
 	}
 }
+
 
 Application* Application::app = NULL;

@@ -46,7 +46,7 @@ bool DrawMgr::CreateWindow()
 	else
 	{
 		//Create window
-        window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, nScreenWidth, nScreenHeight, SDL_WINDOW_SHOWN );
+        window = SDL_CreateWindow( "Puzzle Tiles", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, nScreenWidth, nScreenHeight, SDL_WINDOW_SHOWN );
         if( window == NULL )
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -95,9 +95,9 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawBoard()
 {
-	SDL_Rect* temp = Board::getBoard()->getPos();
+	SDL_Rect temp = Board::getBoard()->getPos();
 
-	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, temp );
+	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, &temp );
 }
 
 DrawMgr* DrawMgr::mgr = NULL;
