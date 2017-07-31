@@ -6,7 +6,7 @@ Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 	isInside = false;
 	isSelected = false;
 
-	this->tilePos = Board::getBoard()->getPos();
+	//this->tilePos = Board::getBoard()->getPos();
 
 	mousePos.x = tilePos.x;
 	mousePos.y = tilePos.y;
@@ -31,16 +31,14 @@ SDL_Surface* Tile::getSurface()
 {
 	/* Creating the surface. */
 	this->m_tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
-
-		SDL_Rect temp;
-		temp.w = 20;
-		temp.h = 20;
 	/* Filling the surface with red color. */
-	SDL_FillRect(this->m_tile, &temp, SDL_MapRGB(this->m_tile->format, 31, 40, 7));
-	// if(isSelected)
-	// {
-	//SDL_FillRect(this->m_tile, &temp, SDL_MapRGB(this->m_tile->format, 200 , 200, 200));
-//	}
+	SDL_FillRect(this->m_tile, NULL, SDL_MapRGB(this->m_tile->format, 31, 40, 7));
+
+	if(isSelected)
+	{
+		SDL_BlitScaled(DrawMgr::getMgr()->getMarker(), NULL, m_tile, NULL);
+	}
+
 	return this->m_tile;
 }
 
@@ -86,9 +84,9 @@ void Tile::moveDown()
 	}
 }
 
-SDL_Rect Tile::getPos()
+SDL_Rect* Tile::getPos()
 {
-	return this->tilePos;
+	return &tilePos;
 }
 
 void Tile::setPos(int x, int y)
@@ -99,7 +97,7 @@ void Tile::setPos(int x, int y)
 
 bool Tile::checkCollision()
 {
-	if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos().y + Board::getBoard()->getBoardHeight()) )
+	if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos()->y + Board::getBoard()->getHeight()) )
 	{
 		return false;
 	}
@@ -119,6 +117,16 @@ bool Tile::isInsideTile(int x, int y)
 	}
 
 	return isInside;
+}
+
+int Tile::getWidth() const
+{
+	return m_nTileWidth;
+}
+
+int Tile::getHeight() const
+{
+	return m_nTileHeight;
 }
 
 Tile* Tile::tile = NULL;

@@ -22,9 +22,9 @@ Board* Board::getBoard()
 	return board;
 }
 
-SDL_Rect Board::getPos()
+SDL_Rect* Board::getPos()
 {
-	return this->boardPos;
+	return &boardPos;
 }
 
 void Board::setPos(int x, int y)
@@ -39,22 +39,32 @@ SDL_Surface* Board::getSurface()
 
 	SDL_FillRect(boardBackground , NULL, SDL_MapRGB(boardBackground->format, 216, 120, 41));
 
-	SDL_BlitSurface(Tile::getTile()->getSurface(), NULL, boardBackground, NULL);
+	fillBoard();
 
 	return this->boardBackground;
 }
 
-// void Board::fillBoard()
-// {
-// //	Tile::getTile()->getTileSurface();
-// }
+void Board::fillBoard()
+{
+	SDL_Rect* blitDest = getPos();
 
-int Board::getBoardWidth() const
+	for( int i = 0; i <= bRows; i++)
+	{
+		for( int j = 0; j <= bCols; j++)
+		{
+			SDL_BlitSurface(Tile::getTile()->getSurface(), NULL, boardBackground, blitDest);
+			blitDest->x += Tile::getTile()->getWidth();
+		}
+		blitDest->y += Tile::getTile()->getHeight() + 5;
+	}
+}
+
+int Board::getWidth() const
 {
 	return m_nBoardWidth;
 }
 
-int Board::getBoardHeight() const
+int Board::getHeight() const
 {
 	return m_nBoardHeight;
 }

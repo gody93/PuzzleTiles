@@ -13,6 +13,7 @@ public:
 	bool CreateWindow();
 	bool loadMedia();
 
+	SDL_Surface* getMarker();
 
 	void DrawBackground();
 	void DrawBoard();
@@ -31,6 +32,7 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Surface* screenBackground = NULL;
 	SDL_Surface* background = NULL;
+	SDL_Surface* tileMarker = NULL;
 
 };
 

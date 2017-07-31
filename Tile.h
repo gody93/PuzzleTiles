@@ -11,7 +11,7 @@ public:
 	static Tile* getTile();
 
 	virtual SDL_Surface* getSurface();
-	SDL_Rect getPos();
+	SDL_Rect* getPos();
 	virtual void setPos(int,int);
 
 	void moveDown();
@@ -20,6 +20,9 @@ public:
 	bool checkCollision();
 
 	bool isInsideTile(int,int);
+
+	virtual int getWidth() const;
+	virtual int getHeight() const;
 
 	~Tile();
 

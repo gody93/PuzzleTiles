@@ -18,6 +18,9 @@ DrawMgr::~DrawMgr()
 	SDL_FreeSurface( screenBackground );
 	screenBackground = NULL;
 
+	SDL_FreeSurface( tileMarker );
+	tileMarker= NULL;
+
     //Destroy window
     SDL_DestroyWindow( window );
     window = NULL;
@@ -80,6 +83,14 @@ bool DrawMgr::loadMedia()
         success = false;
     }
 
+	tileMarker = SDL_LoadBMP( "img/marker.bmp");
+	if( tileMarker == NULL )
+    {
+        printf( "Unable to load image %s! SDL Error: %s\n", "img", SDL_GetError() );
+        success = false;
+    }
+
+
     return success;
 }
 
@@ -95,9 +106,14 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawBoard()
 {
-	SDL_Rect temp = Board::getBoard()->getPos();
+	SDL_Rect* temp = Board::getBoard()->getPos();
 
-	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, &temp );
+	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, temp );
+}
+
+SDL_Surface* DrawMgr::getMarker()
+{
+	return tileMarker;
 }
 
 DrawMgr* DrawMgr::mgr = NULL;
