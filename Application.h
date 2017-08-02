@@ -2,7 +2,6 @@
 #define APPLICATION_H
 
 #include "DrawMgr.h"
-#include "Cube.h"
 #include "Board.h"
 
 class Application
@@ -14,9 +13,7 @@ public:
 
 private:
 	Application();
-
 	static Application* app;
-
 };
 
 #endif

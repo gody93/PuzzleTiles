@@ -106,9 +106,9 @@ void DrawMgr::DrawBackground()
 
 void DrawMgr::DrawBoard()
 {
-	SDL_Rect* temp = Board::getBoard()->getPos();
+	SDL_Rect temp = Board::getBoard()->getPos();
 
-	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, temp );
+	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, &temp );
 }
 
 SDL_Surface* DrawMgr::getMarker()

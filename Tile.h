@@ -1,35 +1,32 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <iostream>
 #include "Cube.h"
-#include "Board.h"
 
 class Tile : public Cube
 {
 
 public:
-	static Tile* getTile();
-
+	Tile();
+	~Tile();
 	virtual SDL_Surface* getSurface();
-	SDL_Rect* getPos();
+	virtual SDL_Rect getPos();
 	virtual void setPos(int,int);
+	virtual int getWidth() const;
+	virtual int getHeight() const;
 
 	void moveDown();
-	void handleEvent(SDL_Event&);
+	void handleEvent(SDL_Event);
 
 	bool checkCollision();
 
 	bool isInsideTile(int,int);
 
-	virtual int getWidth() const;
-	virtual int getHeight() const;
 
-	~Tile();
+
 
 private:
-	Tile();
-	static Tile* tile;
-
 	int m_nTileWidth;
 	int m_nTileHeight;
 
@@ -40,6 +37,7 @@ private:
 	SDL_Surface* m_tile;
 
 	SDL_Point mousePos;
+
 	bool isInside;
 	bool isSelected;
 

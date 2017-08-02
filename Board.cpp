@@ -10,6 +10,9 @@ Board::~Board()
 {
 	delete Board::board;
 	Board::board = NULL;
+
+	// delete tile;
+	// tile = NULL;
 }
 
 Board* Board::getBoard()
@@ -22,9 +25,9 @@ Board* Board::getBoard()
 	return board;
 }
 
-SDL_Rect* Board::getPos()
+SDL_Rect Board::getPos()
 {
-	return &boardPos;
+	return boardPos;
 }
 
 void Board::setPos(int x, int y)
@@ -46,17 +49,24 @@ SDL_Surface* Board::getSurface()
 
 void Board::fillBoard()
 {
-	SDL_Rect* blitDest = getPos();
 
-	for( int i = 0; i <= bRows; i++)
-	{
-		for( int j = 0; j <= bCols; j++)
-		{
-			SDL_BlitSurface(Tile::getTile()->getSurface(), NULL, boardBackground, blitDest);
-			blitDest->x += Tile::getTile()->getWidth();
-		}
-		blitDest->y += Tile::getTile()->getHeight() + 5;
-	}
+	SDL_Rect blitDest;// = getPos();
+	blitDest.x = boardPos.x + 30;
+	blitDest.y = boardPos.y + 30;
+
+	tile->setPos(blitDest.x, blitDest.y);
+	SDL_BlitSurface(tile->getSurface(), NULL, boardBackground, &blitDest);
+
+
+	// for( int i = 0; i <= bRows; i++)
+	// {
+	// 	for( int j = 0; j <= bCols; j++)
+	// 	{
+	// 		SDL_BlitSurface(playBoard[i][j].getSurface(), NULL, boardBackground, &blitDest);
+	// 		blitDest.x += tile.getWidth();
+	// 	}
+	// 	blitDest.y += tile.getHeight() + 5;
+	// }
 }
 
 int Board::getWidth() const
@@ -69,5 +79,9 @@ int Board::getHeight() const
 	return m_nBoardHeight;
 }
 
+Tile* Board::getTile()
+{
+	return tile;
+}
 
 Board* Board::board = NULL;

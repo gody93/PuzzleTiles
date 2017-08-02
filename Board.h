@@ -7,19 +7,22 @@
 
 #include <array>
 
+
+
 class Board : public Cube
 {
 public:
 	static Board* getBoard();
+
 	virtual SDL_Surface* getSurface();
-	virtual SDL_Rect* getPos();
+	virtual SDL_Rect getPos();
 	virtual void setPos(int, int);
-
-	void fillBoard();
-
 	virtual int getHeight() const;
 	virtual int getWidth() const;
 
+
+	void fillBoard();
+	Tile* getTile();
 	~Board();
 
 
@@ -35,6 +38,8 @@ private:
 	static const int bCols = 5;
 
 	SDL_Rect boardPos;
+
+	Tile* tile = new Tile();
 
 	SDL_Surface* boardBackground;
 

@@ -2,29 +2,13 @@
 
 Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 {
-
 	isInside = false;
 	isSelected = false;
-
-	//this->tilePos = Board::getBoard()->getPos();
-
-	mousePos.x = tilePos.x;
-	mousePos.y = tilePos.y;
 }
 
 Tile::~Tile()
 {
-	delete Tile::tile;
-	Tile::tile = NULL;
-}
 
-Tile* Tile::getTile()
-{
-	if(!tile)
-	{
-		tile = new Tile();
-	}
-	return tile;
 }
 
 SDL_Surface* Tile::getSurface()
@@ -36,13 +20,13 @@ SDL_Surface* Tile::getSurface()
 
 	if(isSelected)
 	{
-		SDL_BlitScaled(DrawMgr::getMgr()->getMarker(), NULL, m_tile, NULL);
+		//SDL_BlitScaled(DrawMgr::getMgr()->getMarker(), NULL, m_tile, NULL);
 	}
 
 	return this->m_tile;
 }
 
-void Tile::handleEvent(SDL_Event &e)
+void Tile::handleEvent(SDL_Event e)
 {
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
 	{
@@ -65,6 +49,10 @@ void Tile::handleEvent(SDL_Event &e)
 			isSelected = true;
 			std::cout << "Yay\n\n";
 		}
+		else
+		{
+			std::cout << SDL_GetMouseState(&x, &y) << "\n\n";
+		}
 	}
 }
 
@@ -84,24 +72,27 @@ void Tile::moveDown()
 	}
 }
 
-SDL_Rect* Tile::getPos()
+SDL_Rect Tile::getPos()
 {
-	return &tilePos;
+	return tilePos;
 }
 
 void Tile::setPos(int x, int y)
 {
 	tilePos.x = x;
 	tilePos.y = y;
+
+	mousePos.x = x;
+	mousePos.y = y;
 }
 
 bool Tile::checkCollision()
 {
-	if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos()->y + Board::getBoard()->getHeight()) )
-	{
-		return false;
-	}
-	return true;
+	// if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos().y + Board::getBoard()->getHeight()) )
+	// {
+	// 	return false;
+	// }
+	// return true;
 }
 
 bool Tile::isInsideTile(int x, int y)
@@ -109,8 +100,8 @@ bool Tile::isInsideTile(int x, int y)
 	isInside = false;
 	isSelected = false;
 
-	if( ( x > mousePos.x && x < (mousePos.x + m_nTileWidth) )  &&
-		( y > mousePos.y  && y < ( mousePos.y + m_nTileHeight) ) )
+	if( ( x > this->mousePos.x && x < (this->mousePos.x + m_nTileWidth) )  &&
+		( y > this->mousePos.y  && y < ( this->mousePos.y + m_nTileHeight) ) )
 	{
 		isInside = true;
 		isSelected = true;
@@ -128,5 +119,3 @@ int Tile::getHeight() const
 {
 	return m_nTileHeight;
 }
-
-Tile* Tile::tile = NULL;
