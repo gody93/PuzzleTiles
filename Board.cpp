@@ -4,6 +4,8 @@ Board::Board() : m_nBoardWidth(245), m_nBoardHeight(245)
 {
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
+
+	tile->setMousePos(boardPos.x, boardPos.y);
 }
 
 Board::~Board()
@@ -55,6 +57,7 @@ void Board::fillBoard()
 	blitDest.y = boardPos.y + 30;
 
 	tile->setPos(blitDest.x, blitDest.y);
+	tile->setMousePos(blitDest.x, blitDest.y);
 	SDL_BlitSurface(tile->getSurface(), NULL, boardBackground, &blitDest);
 
 

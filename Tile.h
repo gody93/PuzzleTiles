@@ -23,6 +23,8 @@ public:
 
 	bool isInsideTile(int,int);
 
+	void setMousePos(int x, int y);
+
 
 
 

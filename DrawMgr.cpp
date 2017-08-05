@@ -79,16 +79,16 @@ bool DrawMgr::loadMedia()
     background = SDL_LoadBMP( "img/wallpaper.bmp" );
     if( background == NULL )
     {
-        printf( "Unable to load image %s! SDL Error: %s\n", "img", SDL_GetError() );
+        printf( "Unable to load image wallpaper! SDL Error: %s\n", "img", SDL_GetError() );
         success = false;
     }
 
-	tileMarker = SDL_LoadBMP( "img/marker.bmp");
-	if( tileMarker == NULL )
-    {
-        printf( "Unable to load image %s! SDL Error: %s\n", "img", SDL_GetError() );
-        success = false;
-    }
+	// tileMarker = SDL_LoadBMP( "img/marker.bmp");
+	// if( tileMarker == NULL )
+    // {
+    //     printf( "Unable to load image marker! SDL Error: %s\n", "img", SDL_GetError() );
+    //     success = false;
+    // }
 
 
     return success;

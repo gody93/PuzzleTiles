@@ -2,7 +2,7 @@
 src = $(wildcard *.cpp)
 obj = $(src:.cpp=.o)
 
-CXXFLAGS = -g
+CXXFLAGS = -g -std=c++11
 LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
 
 main: $(obj)

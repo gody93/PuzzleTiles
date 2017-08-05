@@ -51,7 +51,7 @@ void Tile::handleEvent(SDL_Event e)
 		}
 		else
 		{
-			std::cout << SDL_GetMouseState(&x, &y) << "\n\n";
+			std::cout << "Nope\n\n\n";
 		}
 	}
 }
@@ -81,7 +81,10 @@ void Tile::setPos(int x, int y)
 {
 	tilePos.x = x;
 	tilePos.y = y;
+}
 
+void Tile::setMousePos(int x, int y)
+{
 	mousePos.x = x;
 	mousePos.y = y;
 }
