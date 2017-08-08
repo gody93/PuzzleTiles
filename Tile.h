@@ -11,10 +11,12 @@ public:
 	Tile();
 	~Tile();
 	virtual SDL_Surface* getSurface();
-	virtual SDL_Rect getPos();
-	virtual void setPos(int,int);
+	virtual SDL_Rect& getPos();
+	virtual void setPos(int = 0,int = 0);
 	virtual int getWidth() const;
 	virtual int getHeight() const;
+
+	SDL_Rect& getTilePos();
 
 	void moveDown();
 	void handleEvent(SDL_Event);

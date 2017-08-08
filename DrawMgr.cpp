@@ -1,6 +1,6 @@
 #include "DrawMgr.h"
 
-DrawMgr::DrawMgr() : nScreenWidth(500), nScreenHeight(500)
+DrawMgr::DrawMgr() : nScreenWidth(500), nScreenHeight(500), window(NULL), screenSurface(NULL), screenBackground(NULL), boardBackground(NULL), tileMarker(NULL)
 {
 
 }
@@ -10,16 +10,18 @@ DrawMgr::~DrawMgr()
 	delete DrawMgr::mgr;
 	DrawMgr::mgr = NULL;
 
-
 	//Deallocate surface
-    SDL_FreeSurface( background );
-    background = NULL;
+    SDL_FreeSurface( screenBackground );
+    screenBackground = NULL;
 
-	SDL_FreeSurface( screenBackground );
-	screenBackground = NULL;
+	SDL_FreeSurface( screenSurface );
+	screenSurface = NULL;
 
 	SDL_FreeSurface( tileMarker );
 	tileMarker= NULL;
+
+	SDL_FreeSurface( boardBackground );
+	boardBackground = NULL;
 
     //Destroy window
     SDL_DestroyWindow( window );
@@ -58,7 +60,7 @@ bool DrawMgr::CreateWindow()
         else
         {
             //Get window surface
-            screenBackground = SDL_GetWindowSurface( window );
+            screenSurface = SDL_GetWindowSurface( window );
         }
 	}
 
@@ -76,8 +78,8 @@ bool DrawMgr::loadMedia()
     bool success = true;
 
     //Load splash image
-    background = SDL_LoadBMP( "img/wallpaper.bmp" );
-    if( background == NULL )
+    screenBackground = SDL_LoadBMP( "img/wallpaper.bmp" );
+    if( screenBackground == NULL )
     {
         printf( "Unable to load image wallpaper! SDL Error: %s\n", "img", SDL_GetError() );
         success = false;
@@ -90,6 +92,13 @@ bool DrawMgr::loadMedia()
     //     success = false;
     // }
 
+	boardBackground = Board::getBoard()->getSurface();
+	if( boardBackground == NULL)
+	{
+		printf( "Unable to load board background!" );
+		success = false;
+	}
+
 
     return success;
 }
@@ -99,21 +108,26 @@ void DrawMgr::UpdateScreen()
 	SDL_UpdateWindowSurface( window );
 }
 
-void DrawMgr::DrawBackground()
+void DrawMgr::DrawScreenBackground()
 {
-	SDL_BlitScaled( background, NULL, screenBackground, NULL );
+	SDL_BlitScaled( screenBackground, NULL, screenSurface, NULL );
 }
 
 void DrawMgr::DrawBoard()
 {
 	SDL_Rect temp = Board::getBoard()->getPos();
 
-	SDL_BlitSurface( Board::getBoard()->getSurface(), NULL, screenBackground, &temp );
+	SDL_BlitSurface( boardBackground , NULL, screenSurface, &temp );
 }
 
 SDL_Surface* DrawMgr::getMarker()
 {
 	return tileMarker;
+}
+
+SDL_Surface* DrawMgr::getScreenSurface()
+{
+	return screenSurface;
 }
 
 DrawMgr* DrawMgr::mgr = NULL;

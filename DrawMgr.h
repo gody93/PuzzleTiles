@@ -16,12 +16,14 @@ public:
 
 	SDL_Surface* getMarker();
 
-	void DrawBackground();
+	void DrawScreenBackground();
 	void DrawBoard();
 	void UpdateScreen();
 
 	int getScreenWidth() { return nScreenWidth; }
 	int getScreenHeight() { return nScreenHeight; }
+
+	SDL_Surface* getScreenSurface();
 
 private:
 	DrawMgr();
@@ -30,10 +32,11 @@ private:
 	int nScreenWidth;
 	int nScreenHeight;
 
-	SDL_Window* window = NULL;
-	SDL_Surface* screenBackground = NULL;
-	SDL_Surface* background = NULL;
-	SDL_Surface* tileMarker = NULL;
+	SDL_Window* window;
+	SDL_Surface* screenSurface;
+	SDL_Surface* screenBackground;
+	SDL_Surface* boardBackground;
+	SDL_Surface* tileMarker;
 
 };
 

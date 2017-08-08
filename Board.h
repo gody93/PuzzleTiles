@@ -5,9 +5,7 @@
 #include "Cube.h"
 #include "Tile.h"
 
-#include <array>
-
-
+#include <vector>
 
 class Board : public Cube
 {
@@ -15,7 +13,7 @@ public:
 	static Board* getBoard();
 
 	virtual SDL_Surface* getSurface();
-	virtual SDL_Rect getPos();
+	virtual SDL_Rect& getPos();
 	virtual void setPos(int, int);
 	virtual int getHeight() const;
 	virtual int getWidth() const;
@@ -23,6 +21,7 @@ public:
 
 	void fillBoard();
 	Tile* getTile();
+	void freeTiles();
 	~Board();
 
 
@@ -39,13 +38,13 @@ private:
 
 	SDL_Rect boardPos;
 
-	Tile* tile = new Tile();
+	//Tile* tile = new Tile();
 
-	SDL_Surface* boardBackground;
+	SDL_Surface* background;
 
-	std::array< std::array<int,bCols>, bRows> playBoard;
+	//std::array< std::array<Tile*,bCols>, bRows> playBoard;
+	std::vector<Tile*> playBoard;
 	//std::array< std::array<tile, 5>, 3> tiles;
-	// void fillBoard();
 };
 
 #endif

@@ -47,7 +47,7 @@ void Application::Start()
 				}
 			}
 
-			DrawMgr::getMgr()->DrawBackground();
+			DrawMgr::getMgr()->DrawScreenBackground();
 			DrawMgr::getMgr()->DrawBoard();
 			DrawMgr::getMgr()->UpdateScreen();
 		}

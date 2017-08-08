@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
+Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45)
 {
 	isInside = false;
 	isSelected = false;
@@ -8,7 +8,8 @@ Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 
 Tile::~Tile()
 {
-
+	SDL_FreeSurface(m_tile);
+	m_tile = NULL;
 }
 
 SDL_Surface* Tile::getSurface()
@@ -33,7 +34,6 @@ void Tile::handleEvent(SDL_Event e)
 		switch( e.key.keysym.sym)
 		{
 		case SDLK_UP:
-			moveDown();
 			break;
 		default:
 			break;
@@ -47,18 +47,20 @@ void Tile::handleEvent(SDL_Event e)
 		if( isInsideTile(x,y) )
 		{
 			isSelected = true;
+			//moveDown();
 			std::cout << "Yay\n\n";
 		}
 		else
 		{
-			std::cout << "Nope\n\n\n";
+			std::cout << "x: " << x << " y: " << y << std::endl;
+			std::cout << "\n" << mousePos.x << " " << mousePos.y << std::endl;
 		}
 	}
 }
 
 void Tile::moveDown()
 {
-	//tilePos.x += m_nTileHeight;
+	tilePos.x += m_nTileHeight;
 
 	if(checkCollision())
 	{
@@ -72,7 +74,7 @@ void Tile::moveDown()
 	}
 }
 
-SDL_Rect Tile::getPos()
+SDL_Rect& Tile::getPos()
 {
 	return tilePos;
 }
@@ -81,6 +83,9 @@ void Tile::setPos(int x, int y)
 {
 	tilePos.x = x;
 	tilePos.y = y;
+
+	mousePos.x = x;
+	mousePos.y = y;
 }
 
 void Tile::setMousePos(int x, int y)
