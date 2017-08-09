@@ -1,6 +1,6 @@
 #include "Board.h"
 
-Board::Board() : m_nBoardWidth(245), m_nBoardHeight(245), background(NULL)
+Board::Board() : m_nBoardWidth(245), m_nBoardHeight(145), background(NULL), firstDraw(false)
 {
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
@@ -37,75 +37,55 @@ void Board::setPos(int x, int y)
 
 SDL_Surface* Board::getSurface()
 {
-	this->background = SDL_CreateRGBSurface(0, m_nBoardHeight, m_nBoardWidth, 32, 0, 0, 0, 0);
+	this->background = SDL_CreateRGBSurface(0, m_nBoardWidth, m_nBoardHeight, 32, 0, 0, 0, 0);
 
 	SDL_FillRect(background , NULL, SDL_MapRGB(background->format, 216, 120, 41));
-
-	fillBoard();
 
 	return this->background;
 }
 
 void Board::fillBoard()
 {
-	for( int i = 0; i < 15; i++)
+	for( int i = 0; i < 14; i++)
 	{
 		playBoard.push_back( new Tile() );
 	}
+
 	int x = 0;
 	int y = 0;
-	// playBoard.at(0)->setPos();
-	// //SDL_Rect blitDest = playBoard.at(0)->getPos();
+	int i = 0;
 
-	// playBoard.at(0)->setMousePos(playBoard.at(0)->getPos().x + boardPos.x , playBoard.at(0)->getPos().y + boardPos.y);
-	// SDL_BlitSurface(playBoard.at(0)->getSurface(), NULL, background , &(playBoard.at(0)->getPos()) );
-
-	// playBoard.at(1)->setPos(50);
-	// playBoard.at(1)->setMousePos(playBoard.at(1)->getPos().x + boardPos.x , playBoard.at(1)->getPos().y + boardPos.y);
-	// SDL_BlitSurface(playBoard.at(1)->getSurface(), NULL, background , &(playBoard.at(1)->getPos()) );
-
-	for( int i = 0; i < 15; i++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
 	{
-		playBoard.at(i)->setPos(x,y);
-		playBoard.at(i)->setMousePos(playBoard.at(i)->getPos().x + boardPos.x , playBoard.at(i)->getPos().y + boardPos.y);
-		SDL_BlitSurface(playBoard.at(i)->getSurface(), NULL, background , &(playBoard.at(i)->getPos()) );
-		x += playBoard.at(i)->getHeight() + 5;
-
-		switch(i)
+		if(!firstDraw)
 		{
-		case 4:
-			x = 0;
-			y += playBoard.at(i)->getHeight() + 5;
-			break;
-		case 9:
-			x = 0;
-			y += playBoard.at(i)->getHeight() + 5;
-			break;
-		case 14:
-			x = 0;
-			y += playBoard.at(i)->getHeight() + 5;
-			break;
-		default:break;
+			(*it)->setPos(x,y);
+			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
+			SDL_BlitSurface((*it)->getSurface(), NULL, background , &((*it)->getPos()) );
+			x += (*it)->getHeight() + 2;
+
+			switch(i)
+			{
+			case 4:
+				x = 0;
+				y += (*it)->getHeight() + 2;
+				break;
+			case 9:
+				x = 0;
+				y += (*it)->getHeight() + 2;
+				break;
+			default:break;
+
+			}
+
+			i++;
+		}
+		else
+		{
+			SDL_BlitSurface((*it)->getSurface(), NULL, background, &( (*it)->getPos()) );
 		}
 	}
-
-
-	// for( int i = 0; i < bRows; i++)
-	// {
-	// 	playBoard.at(i)->setPos(0,y);
-	// 	for( int j = 0; j < bCols; j++)
-	// 	{
-	// 		if( j == 0)
-	// 		{
-	// 			x = 0;
-	// 		}
-	// 		playBoard.at(j)->setPos(x);
-	// 		playBoard.at(j)->setMousePos(playBoard.at(j)->getPos().x + boardPos.x , playBoard.at(j)->getPos().y + boardPos.y);
-	// 		SDL_BlitSurface(playBoard.at(j)->getSurface(), NULL, background , &(playBoard.at(j)->getPos()) );
-	// 		x += playBoard.at(j)->getWidth() + 5 ;
-	// 	}
-	// 	y += playBoard.at(i)->getHeight();
-	// }
+	firstDraw = true;
 }
 
 int Board::getWidth() const
@@ -123,12 +103,21 @@ Tile* Board::getTile()
 	return playBoard.at(1);
 }
 
+void Board::handleEvent(SDL_Event e)
+{
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	{
+		(*it)->handleEvent(e);
+	}
+
+	fillBoard();
+}
 void Board::freeTiles()
 {
-	// for( int i = 0; i <= bRows; i++)
-	// {
-	// 	delete playBoard[i];
-	// 	playBoard[i] = NULL;
-	// }
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	{
+		delete (*it);
+		*it = NULL;
+	}
 }
 Board* Board::board = NULL;

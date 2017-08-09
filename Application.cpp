@@ -35,10 +35,13 @@ void Application::Start()
 	{
 		while (!quit)
 		{
+			DrawMgr::getMgr()->DrawScreenBackground();
+			DrawMgr::getMgr()->DrawBoard();
+
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
-				Board::getBoard()->getTile()->handleEvent(e);
+				Board::getBoard()->handleEvent(e);
 				//User requests quit
 				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) )
 				{
@@ -47,8 +50,6 @@ void Application::Start()
 				}
 			}
 
-			DrawMgr::getMgr()->DrawScreenBackground();
-			DrawMgr::getMgr()->DrawBoard();
 			DrawMgr::getMgr()->UpdateScreen();
 		}
 	}

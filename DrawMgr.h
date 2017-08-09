@@ -23,8 +23,6 @@ public:
 	int getScreenWidth() { return nScreenWidth; }
 	int getScreenHeight() { return nScreenHeight; }
 
-	SDL_Surface* getScreenSurface();
-
 private:
 	DrawMgr();
 	static DrawMgr* mgr;

@@ -22,6 +22,7 @@ public:
 	void fillBoard();
 	Tile* getTile();
 	void freeTiles();
+	void handleEvent(SDL_Event e);
 	~Board();
 
 
@@ -37,8 +38,7 @@ private:
 	static const int bCols = 5;
 
 	SDL_Rect boardPos;
-
-	//Tile* tile = new Tile();
+	bool firstDraw;
 
 	SDL_Surface* background;
 

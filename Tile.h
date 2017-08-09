@@ -27,9 +27,6 @@ public:
 
 	void setMousePos(int x, int y);
 
-
-
-
 private:
 	int m_nTileWidth;
 	int m_nTileHeight;

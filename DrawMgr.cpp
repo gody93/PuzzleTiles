@@ -115,19 +115,11 @@ void DrawMgr::DrawScreenBackground()
 
 void DrawMgr::DrawBoard()
 {
-	SDL_Rect temp = Board::getBoard()->getPos();
-
-	SDL_BlitSurface( boardBackground , NULL, screenSurface, &temp );
+	SDL_BlitSurface( boardBackground , NULL, screenSurface, &(Board::getBoard()->getPos()) );
 }
 
 SDL_Surface* DrawMgr::getMarker()
 {
 	return tileMarker;
 }
-
-SDL_Surface* DrawMgr::getScreenSurface()
-{
-	return screenSurface;
-}
-
 DrawMgr* DrawMgr::mgr = NULL;
