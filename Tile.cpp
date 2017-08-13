@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45)
+Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 {
 	isInside = false;
 	isSelected = false;
@@ -29,17 +29,7 @@ SDL_Surface* Tile::getSurface()
 
 void Tile::handleEvent(SDL_Event e)
 {
-	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
-	{
-		switch( e.key.keysym.sym)
-		{
-		case SDLK_UP:
-			break;
-		default:
-			break;
-		}
-	}
-	else if( e.type == SDL_MOUSEBUTTONUP)
+	if( e.type == SDL_MOUSEBUTTONUP)
 	{
 		int x,y;
 		SDL_GetMouseState(&x, &y);

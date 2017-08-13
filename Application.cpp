@@ -35,9 +35,6 @@ void Application::Start()
 	{
 		while (!quit)
 		{
-			DrawMgr::getMgr()->DrawScreenBackground();
-			DrawMgr::getMgr()->DrawBoard();
-
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
@@ -50,6 +47,8 @@ void Application::Start()
 				}
 			}
 
+			DrawMgr::getMgr()->DrawScreenBackground();
+			DrawMgr::getMgr()->DrawBoard();
 			DrawMgr::getMgr()->UpdateScreen();
 		}
 	}
