@@ -6,6 +6,7 @@
 #include "Tile.h"
 
 #include <vector>
+#include <array>
 
 class Board : public Cube
 {
@@ -33,6 +34,8 @@ private:
 
 	int m_nBoardWidth;
 	int m_nBoardHeight;
+
+	static const int tilesCount = 15;
 
 	static const int bRows = 3;
 	static const int bCols = 5;

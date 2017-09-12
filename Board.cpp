@@ -1,14 +1,26 @@
 #include "Board.h"
 
-Board::Board() : m_nBoardWidth(245), m_nBoardHeight(145), background(NULL), firstDraw(false)
+Board::Board() : m_nBoardWidth(245), m_nBoardHeight(145), background(NULL), firstDraw(false), playBoard(tilesCount)
 {
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
 
-	for( int i = 0; i < 14; i++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++ )
 	{
-		playBoard.push_back( new Tile() );
+		(*it) = new Tile();
 	}
+
+	// for( int i = 0; i < bRows; i++)
+	// {
+	// 	for( int j = 0; j < bCols; j++)
+	// 	{
+	// 		if( i == bRows - 1 && j == bCols - 1)
+	// 		{
+	// 			continue;
+	// 		}
+	// 		playBoard[i][j] = new Tile();
+	// 	}
+	// }
 }
 
 Board::~Board()
@@ -70,10 +82,11 @@ void Board::fillBoard()
 		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
 	}
 
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
 	{
 		if(!firstDraw)
 		{
+			(*it)->setInitalPos(i);
 			(*it)->setPos(x,y);
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			SDL_BlitSurface((*it)->getSurface(), NULL, background , &((*it)->getPos()) );
@@ -101,6 +114,32 @@ void Board::fillBoard()
 			SDL_BlitSurface((*it)->getSurface(), NULL, background, &((*it)->getPos()) );
 		}
 	}
+
+	// for( int i = 0; i < bRows; i++)
+	// {
+	// 	for( int j = 0; j < bCols; j++)
+	// 	{
+	// 		if ( i == bRows - 1 && j == bCols - 1)
+	// 		{
+	// 			continue;
+	// 		}
+	// 		if(!firstDraw)
+	// 		{
+	// 			playBoard[i][j]->setPos(x,y);
+	// 			playBoard[i][j]->setMousePos( playBoard[i][j]->getPos().x + boardPos.x, playBoard[i][j]->getPos().y + boardPos.y);
+	// 			SDL_BlitSurface( playBoard[i][j]->getSurface(), NULL, background, &( playBoard[i][j]->getPos()) );
+	// 			x += playBoard[i][j]->getHeight() + 5;
+	// 		}
+	// 		else
+	// 		{
+	// 			playBoard[i][j]->setMousePos( playBoard[i][j]->getPos().x + boardPos.x, playBoard[i][j]->getPos().y + boardPos.y);
+	// 			SDL_BlitSurface( playBoard[i][j]->getSurface(), NULL, background, &( playBoard[i][j]->getPos()) );
+	// 		}
+	// 	}
+	// 	x = 0;
+	// 	y += playBoard[0][0]->getHeight() + 5;
+	// }
+
 	firstDraw = true;
 }
 int Board::getWidth() const
@@ -120,15 +159,28 @@ Tile* Board::getTile()
 
 void Board::handleEvent(SDL_Event e)
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
 	{
-		(*it)->handleEvent(e);
+		(*it)->handleEvent(e, playBoard);
 	}
+
+	// for( int i = 0; i < bRows; i++)
+	// {
+	// 	for( int j = 0; j < bCols; j++)
+	// 	{
+	// 		// if( i == bRows - 1 && j == bCols - 1)
+	// 		// {
+	// 		// 	continue;
+	// 		// }
+	// 		playBoard[i][j]->handleEvent(e);
+	// 	}
+	// }
+
 	fillBoard();
 }
 void Board::freeTiles()
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
 	{
 		delete (*it);
 		*it = NULL;

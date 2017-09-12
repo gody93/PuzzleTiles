@@ -27,7 +27,7 @@ SDL_Surface* Tile::getSurface()
 	return this->m_tile;
 }
 
-void Tile::handleEvent(SDL_Event e)
+void Tile::handleEvent(SDL_Event e, std::vector<Tile*> &vec)
 {
 	if( e.type == SDL_MOUSEBUTTONUP)
 	{
@@ -113,4 +113,9 @@ int Tile::getWidth() const
 int Tile::getHeight() const
 {
 	return m_nTileHeight;
+}
+
+void Tile::setInitalPos(int pos)
+{
+	this->initialPos = pos;
 }

@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include <iostream>
+#include <vector>
 #include "Cube.h"
 
 class Tile : public Cube
@@ -19,13 +20,15 @@ public:
 	SDL_Rect& getTilePos();
 
 	void moveDown();
-	void handleEvent(SDL_Event);
+	void handleEvent(SDL_Event, std::vector<Tile*>&);
 
 	bool checkCollision();
 
 	bool isInsideTile(int,int);
 
 	void setMousePos(int x, int y);
+
+	void setInitalPos(int);
 
 private:
 	int m_nTileWidth;
@@ -41,6 +44,9 @@ private:
 
 	bool isInside;
 	bool isSelected;
+
+	int initialPos;
+	int currPos;
 
 
 
