@@ -37,8 +37,18 @@ void Tile::handleEvent(SDL_Event e, std::vector<Tile*> &vec)
 		if( isInsideTile(x,y) )
 		{
 			isSelected = true;
-			moveDown();
-			std::cout << "Yay\n\n";
+			try
+			{
+				if( vec.at(currPos + offset) == NULL)
+				{
+					moveDown();
+					std::cout << "Yay\n\n";
+				}
+			}
+			catch( const std::exception& e )
+			{
+				std::cout << e.what() << std::endl;
+			}
 		}
 	}
 }
@@ -118,4 +128,5 @@ int Tile::getHeight() const
 void Tile::setInitalPos(int pos)
 {
 	this->initialPos = pos;
+	this->currPos = this->initialPos;
 }
