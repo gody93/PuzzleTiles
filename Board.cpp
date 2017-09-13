@@ -82,9 +82,9 @@ void Board::fillBoard()
 		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
 	}
 
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
 	{
-		if(!firstDraw)
+		if(!firstDraw && (*it) != NULL)
 		{
 			(*it)->setInitalPos(i);
 			(*it)->setPos(x,y);
@@ -110,8 +110,11 @@ void Board::fillBoard()
 		}
 		else
 		{
-			(*it)->setMousePos( (*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
-			SDL_BlitSurface((*it)->getSurface(), NULL, background, &((*it)->getPos()) );
+			if( (*it) != NULL)
+			{
+				(*it)->setMousePos( (*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
+				SDL_BlitSurface((*it)->getSurface(), NULL, background, &((*it)->getPos()) );
+			}
 		}
 	}
 
@@ -159,9 +162,12 @@ Tile* Board::getTile()
 
 void Board::handleEvent(SDL_Event e)
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
 	{
-		(*it)->handleEvent(e, playBoard);
+		if( (*it) != NULL)
+		{
+			(*it)->handleEvent(e, playBoard);
+		}
 	}
 
 	// for( int i = 0; i < bRows; i++)
@@ -180,7 +186,7 @@ void Board::handleEvent(SDL_Event e)
 }
 void Board::freeTiles()
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
+	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
 	{
 		delete (*it);
 		*it = NULL;

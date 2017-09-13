@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Cube.h"
 
 class Tile : public Cube
@@ -30,6 +31,7 @@ public:
 
 	void setInitalPos(int);
 
+	bool outOfRange();
 private:
 	int m_nTileWidth;
 	int m_nTileHeight;

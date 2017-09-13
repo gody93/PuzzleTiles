@@ -39,9 +39,11 @@ void Tile::handleEvent(SDL_Event e, std::vector<Tile*> &vec)
 			isSelected = true;
 			try
 			{
-				if( vec.at(currPos + offset) == NULL)
+				if( ( ( this->currPos + offset < vec.size() ) && (  this->currPos - offset >= 0  ) ) &&
+					vec.at(currPos + offset) == NULL)
 				{
 					moveDown();
+					std::iter_swap(vec.begin() + currPos, vec.begin() + currPos + offset);
 					std::cout << "Yay\n\n";
 				}
 			}
@@ -129,4 +131,18 @@ void Tile::setInitalPos(int pos)
 {
 	this->initialPos = pos;
 	this->currPos = this->initialPos;
+}
+
+bool Tile::outOfRange()
+{
+	bool success = true;
+	if( this->currPos + offset > 15 )
+	{
+		success = false;
+	}
+	if( this->currPos - offset < 0)
+	{
+		success = false;
+	}
+	return success;
 }
