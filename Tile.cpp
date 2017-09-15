@@ -3,7 +3,6 @@
 Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
 {
 	isInside = false;
-	isSelected = false;
 }
 
 Tile::~Tile()
@@ -19,59 +18,28 @@ SDL_Surface* Tile::getSurface()
 	/* Filling the surface with red color. */
 	SDL_FillRect(this->m_tile, NULL, SDL_MapRGB(this->m_tile->format, 31, 40, 7));
 
-	if(isSelected)
-	{
-		//SDL_BlitScaled(DrawMgr::getMgr()->getMarker(), NULL, m_tile, NULL);
-	}
-
 	return this->m_tile;
 }
 
-void Tile::handleEvent(SDL_Event e, std::vector<Tile*> &vec)
-{
-	if( e.type == SDL_MOUSEBUTTONUP)
-	{
-		int x,y;
-		SDL_GetMouseState(&x, &y);
-		//Mouse is right of the button
-		if( isInsideTile(x,y) )
-		{
-			isSelected = true;
-			try
-			{
-				if( ( ( this->currPos + offset < vec.size() ) && (  this->currPos - offset >= 0  ) ) &&
-					vec.at(currPos + offset) == NULL)
-				{
-					moveDown();
-					std::iter_swap(vec.begin() + currPos, vec.begin() + currPos + offset);
-					std::cout << "Yay\n\n";
-				}
-			}
-			catch( const std::exception& e )
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
-	}
-}
 
 void Tile::moveDown()
 {
-
 	this->tilePos.y += m_nTileHeight + offset;
+}
 
-	// tilePos.x += m_nTileHeight;
+void Tile::moveUp()
+{
+	this->tilePos.y -= m_nTileHeight + offset;
+}
 
-	// if(checkCollision())
-	// {
-	// 	tilePos.y += m_nTileWidth + offset;
+void Tile::moveRight()
+{
+	this->tilePos.x += m_nTileWidth + offset;
+}
 
-	// 	std::cout << "Moves Down \n\n";
-	// }
-	// else
-	// {
-	// 	std::cout << "In Collision \n\n";
-	// }
+void Tile::moveLeft()
+{
+	this->tilePos.x -= m_nTileWidth + offset;
 }
 
 SDL_Rect& Tile::getPos()
@@ -105,13 +73,11 @@ bool Tile::checkCollision()
 bool Tile::isInsideTile(int x, int y)
 {
 	isInside = false;
-	isSelected = false;
 
 	if( ( x > this->mousePos.x && x < (this->mousePos.x + m_nTileWidth) )  &&
 		( y > this->mousePos.y  && y < ( this->mousePos.y + m_nTileHeight) ) )
 	{
 		isInside = true;
-		isSelected = true;
 	}
 
 	return isInside;
@@ -133,16 +99,12 @@ void Tile::setInitalPos(int pos)
 	this->currPos = this->initialPos;
 }
 
-bool Tile::outOfRange()
+int Tile::getCurrPos()
 {
-	bool success = true;
-	if( this->currPos + offset > 15 )
-	{
-		success = false;
-	}
-	if( this->currPos - offset < 0)
-	{
-		success = false;
-	}
-	return success;
+	return currPos;
+}
+
+void Tile::setCurrPos( int pos )
+{
+	currPos = pos;
 }

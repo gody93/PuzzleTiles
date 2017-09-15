@@ -35,6 +35,12 @@ void Application::Start()
 	{
 		while (!quit)
 		{
+
+			DrawMgr::getMgr()->DrawScreenBackground();
+
+			DrawMgr::getMgr()->DrawBoard();
+
+			DrawMgr::getMgr()->UpdateScreen();
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
 			{
@@ -45,11 +51,11 @@ void Application::Start()
 					quit = true;
 					std::cout << "Game Quits \n";
 				}
+				else if( ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p ) )
+				{
+					Board::getBoard()->printPositions();
+				}
 			}
-
-			DrawMgr::getMgr()->DrawScreenBackground();
-			DrawMgr::getMgr()->DrawBoard();
-			DrawMgr::getMgr()->UpdateScreen();
 		}
 	}
 }

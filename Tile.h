@@ -21,7 +21,9 @@ public:
 	SDL_Rect& getTilePos();
 
 	void moveDown();
-	void handleEvent(SDL_Event, std::vector<Tile*>&);
+	void moveUp();
+	void moveRight();
+	void moveLeft();
 
 	bool checkCollision();
 
@@ -31,7 +33,9 @@ public:
 
 	void setInitalPos(int);
 
-	bool outOfRange();
+	int getCurrPos();
+	void setCurrPos(int);
+
 private:
 	int m_nTileWidth;
 	int m_nTileHeight;
@@ -45,7 +49,6 @@ private:
 	SDL_Point mousePos;
 
 	bool isInside;
-	bool isSelected;
 
 	int initialPos;
 	int currPos;

@@ -1,32 +1,7 @@
 [
     {
-        "command": "c++ -c -g -std=c++11 -o DrawMgr.o DrawMgr.cpp",
-        "directory": "/home/default/workspace/PuzzleTiles",
-        "file": "/home/default/workspace/PuzzleTiles/DrawMgr.cpp"
-    },
-    {
         "command": "c++ -c -g -std=c++11 -o Board.o Board.cpp",
         "directory": "/home/default/workspace/PuzzleTiles",
         "file": "/home/default/workspace/PuzzleTiles/Board.cpp"
-    },
-    {
-        "command": "c++ -c -g -std=c++11 -o Tile.o Tile.cpp",
-        "directory": "/home/default/workspace/PuzzleTiles",
-        "file": "/home/default/workspace/PuzzleTiles/Tile.cpp"
-    },
-    {
-        "command": "c++ -c -g -std=c++11 -o Cube.o Cube.cpp",
-        "directory": "/home/default/workspace/PuzzleTiles",
-        "file": "/home/default/workspace/PuzzleTiles/Cube.cpp"
-    },
-    {
-        "command": "c++ -c -g -std=c++11 -o main.o main.cpp",
-        "directory": "/home/default/workspace/PuzzleTiles",
-        "file": "/home/default/workspace/PuzzleTiles/main.cpp"
-    },
-    {
-        "command": "c++ -c -g -std=c++11 -o Application.o Application.cpp",
-        "directory": "/home/default/workspace/PuzzleTiles",
-        "file": "/home/default/workspace/PuzzleTiles/Application.cpp"
     }
 ]

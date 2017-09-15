@@ -24,6 +24,8 @@ public:
 	Tile* getTile();
 	void freeTiles();
 	void handleEvent(SDL_Event e);
+	void printPositions();
+	void updatePositions();
 	~Board();
 
 
@@ -34,6 +36,7 @@ private:
 
 	int m_nBoardWidth;
 	int m_nBoardHeight;
+	int m_nOffset;
 
 	static const int tilesCount = 15;
 
