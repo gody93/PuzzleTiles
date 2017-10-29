@@ -32,9 +32,12 @@ public:
 	void setMousePos(int x, int y);
 
 	void setInitalPos(int);
+	int getInitialPos() const;
 
-	int getCurrPos();
+	int getCurrPos() const;
 	void setCurrPos(int);
+
+	bool isInCorrectPlace();
 
 private:
 	int m_nTileWidth;

@@ -99,9 +99,19 @@ void Tile::setInitalPos(int pos)
 	this->currPos = this->initialPos;
 }
 
-int Tile::getCurrPos()
+int Tile::getInitialPos() const
+{
+	return this->initialPos;
+}
+
+int Tile::getCurrPos() const
 {
 	return currPos;
+}
+
+bool Tile::isInCorrectPlace()
+{
+	return this->initialPos == this->currPos ? true : false;
 }
 
 void Tile::setCurrPos( int pos )

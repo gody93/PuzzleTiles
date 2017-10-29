@@ -46,7 +46,7 @@ void Application::Start()
 			{
 				Board::getBoard()->handleEvent(e);
 				//User requests quit
-				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) )
+				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) || Board::getBoard()->success )
 				{
 					quit = true;
 					std::cout << "Game Quits \n";

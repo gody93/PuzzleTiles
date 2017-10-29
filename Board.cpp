@@ -1,6 +1,13 @@
 #include "Board.h"
 
-Board::Board() : m_nBoardWidth(245), m_nBoardHeight(145), background(NULL), firstDraw(false), playBoard(tilesCount), m_nOffset(5)
+Board::Board() : success(false)
+			   , m_nBoardWidth(245)
+			   , m_nBoardHeight(145)
+			   , m_nOffset(5)
+			   , firstDraw(false)
+			   , background(NULL)
+			   , playBoard(tilesCount)
+
 {
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
@@ -10,17 +17,7 @@ Board::Board() : m_nBoardWidth(245), m_nBoardHeight(145), background(NULL), firs
 		(*it) = new Tile();
 	}
 
-	// for( int i = 0; i < bRows; i++)
-	// {
-	// 	for( int j = 0; j < bCols; j++)
-	// 	{
-	// 		if( i == bRows - 1 && j == bCols - 1)
-	// 		{
-	// 			continue;
-	// 		}
-	// 		playBoard[i][j] = new Tile();
-	// 	}
-	// }
+	playBoardToModify = playBoard;
 }
 
 Board::~Board()
@@ -82,7 +79,7 @@ void Board::fillBoard()
 		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
 	}
 
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		if(!firstDraw && (*it) != NULL)
 		{
@@ -118,31 +115,6 @@ void Board::fillBoard()
 		}
 	}
 
-	// for( int i = 0; i < bRows; i++)
-	// {
-	// 	for( int j = 0; j < bCols; j++)
-	// 	{
-	// 		if ( i == bRows - 1 && j == bCols - 1)
-	// 		{
-	// 			continue;
-	// 		}
-	// 		if(!firstDraw)
-	// 		{
-	// 			playBoard[i][j]->setPos(x,y);
-	// 			playBoard[i][j]->setMousePos( playBoard[i][j]->getPos().x + boardPos.x, playBoard[i][j]->getPos().y + boardPos.y);
-	// 			SDL_BlitSurface( playBoard[i][j]->getSurface(), NULL, background, &( playBoard[i][j]->getPos()) );
-	// 			x += playBoard[i][j]->getHeight() + 5;
-	// 		}
-	// 		else
-	// 		{
-	// 			playBoard[i][j]->setMousePos( playBoard[i][j]->getPos().x + boardPos.x, playBoard[i][j]->getPos().y + boardPos.y);
-	// 			SDL_BlitSurface( playBoard[i][j]->getSurface(), NULL, background, &( playBoard[i][j]->getPos()) );
-	// 		}
-	// 	}
-	// 	x = 0;
-	// 	y += playBoard[0][0]->getHeight() + 5;
-	// }
-
 	firstDraw = true;
 }
 int Board::getWidth() const
@@ -157,12 +129,12 @@ int Board::getHeight() const
 
 Tile* Board::getTile()
 {
-	return playBoard.at(1);
+	return playBoardToModify.at(1);
 }
 
 void Board::handleEvent(SDL_Event e)
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		if( e.type == SDL_MOUSEBUTTONUP && (*it) != NULL )
 		{
@@ -171,77 +143,92 @@ void Board::handleEvent(SDL_Event e)
 			//Mouse is right of the button
 			if( (*it)->isInsideTile(x,y) )
 			{
-				if( ( (*it)->getCurrPos() + m_nOffset < playBoard.size() ) && ( playBoard.at((*it)->getCurrPos() + m_nOffset) == NULL ) )
+				if( ( (*it)->getCurrPos() + m_nOffset < playBoardToModify.size() ) && ( playBoardToModify.at((*it)->getCurrPos() + m_nOffset) == NULL ) )
 				{
 					(*it)->moveDown();
-					std::iter_swap(playBoard.begin() + (*it)->getCurrPos(), playBoard.begin() + (*it)->getCurrPos() + m_nOffset);
+					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + m_nOffset);
 					std::cout << "MoveDown \n\n";
 					break;
 				}
-				else if( ( (*it)->getCurrPos() - m_nOffset > 0 ) && ( playBoard.at( (*it)->getCurrPos() - m_nOffset) == NULL) )
+				else if( ( (*it)->getCurrPos() - m_nOffset >= 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - m_nOffset) == NULL) )
 				{
 					(*it)->moveUp();
-					std::iter_swap(playBoard.begin() + (*it)->getCurrPos(), playBoard.begin() + (*it)->getCurrPos() - m_nOffset);
+					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - m_nOffset);
 					std::cout << "MoveUp \n\n";
 					break;
 				}
-				else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoard.at( (*it)->getCurrPos() + 1) == NULL ) )
+				else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( (*it)->getCurrPos() + 1) == NULL ) )
 				{
 					(*it)->moveRight();
-					std::iter_swap(playBoard.begin() + (*it)->getCurrPos(), playBoard.begin() + (*it)->getCurrPos() + 1);
+					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
 					std::cout << "MoveRight \n\n";
 					break;
 				}
-				else if ( ( (*it)->getPos().x > 0 ) && ( playBoard.at( (*it)->getCurrPos() - 1) == NULL ) )
+				else if ( ( (*it)->getPos().x > 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - 1) == NULL ) )
 				{
 					(*it)->moveLeft();
-					std::iter_swap(playBoard.begin() + (*it)->getCurrPos(), playBoard.begin() + (*it)->getCurrPos() - 1);
+					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - 1);
 					std::cout << "MoveLeft \n\n";
 					break;
 				}
 			}
+			updatePositions();
+			isItSolved();
 		}
 	}
 
-
-	// for( int i = 0; i < bRows; i++)
-	// {
-	// 	for( int j = 0; j < bCols; j++)
-	// 	{
-	// 		// if( i == bRows - 1 && j == bCols - 1)
-	// 		// {
-	// 		// 	continue;
-	// 		// }
-	// 		playBoard[i][j]->handleEvent(e);
-	// 	}
-	// }
-	updatePositions();
 	fillBoard();
 }
 void Board::freeTiles()
 {
+	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+	{
+		delete (*it);
+		*it = NULL;
+	}
+
 	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
 	{
 		delete (*it);
 		*it = NULL;
 	}
+
 }
 
 void Board::printPositions()
 {
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		if( (*it) != NULL)
 		{
-			std::cout << "Pos: " << (*it)->getCurrPos() << std::endl;
+			std::cout << "Initial Pos: " << (*it)->getInitialPos() << " - " << (*it)->getCurrPos() << " Current Pos " << std::endl;
 		}
 	}
+}
+
+bool Board::isItSolved()
+{
+	success = false;
+	if( playBoardToModify == playBoard )
+	{
+		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		{
+			if( (*it) != NULL)
+			{
+				if(  (*it)->isInCorrectPlace() )
+				{
+					success = true;
+				}
+			}
+		}
+	}
+	return success;
 }
 
 void Board::updatePositions()
 {
 	int i = 0;
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		if( (*it) != NULL)
 		{

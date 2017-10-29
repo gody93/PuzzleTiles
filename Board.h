@@ -26,8 +26,9 @@ public:
 	void handleEvent(SDL_Event e);
 	void printPositions();
 	void updatePositions();
+	bool isItSolved();
 	~Board();
-
+	bool success;
 
 
 private:
@@ -50,6 +51,7 @@ private:
 
 	//std::array< std::array<Tile*,bCols>, bRows> playBoard;
 	std::vector<Tile*> playBoard;
+	std::vector<Tile*> playBoardToModify;
 	//std::array< std::array<tile, 5>, 3> tiles;
 };
 
