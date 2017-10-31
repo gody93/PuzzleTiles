@@ -5,9 +5,12 @@ Board::Board() : success(false)
 			   , m_nBoardHeight(145)
 			   , m_nOffset(5)
 			   , firstDraw(false)
+			   , hasTileBeenMoved(false)
 			   , background(NULL)
+			   , r(0)
+			   , g(0)
+			   , b(0)
 			   , playBoard(tilesCount)
-
 {
 	boardPos.x = (DrawMgr::getMgr()->getScreenWidth() - m_nBoardWidth ) / 2;
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
@@ -74,6 +77,10 @@ void Board::fillBoard()
 	int y = 0;
 	int i = 0;
 
+	r = 255;
+	g = 255;
+	b = 255;
+
 	if(firstDraw)
 	{
 		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
@@ -85,6 +92,7 @@ void Board::fillBoard()
 		{
 			(*it)->setInitalPos(i);
 			(*it)->setPos(x,y);
+			(*it)->setColour(r,g,b);
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			SDL_BlitSurface((*it)->getSurface(), NULL, background , &((*it)->getPos()) );
 			x += (*it)->getHeight() + 5;
@@ -94,10 +102,15 @@ void Board::fillBoard()
 			case 4:
 				x = 0;
 				y += (*it)->getHeight() + 5;
+				r = 26;
+				g = 132;
+				b = 44;
 				break;
 			case 9:
 				x = 0;
 				y += (*it)->getHeight() + 5;
+				r = 219;
+				g = b = 24;
 				break;
 			default:break;
 
@@ -147,6 +160,7 @@ void Board::handleEvent(SDL_Event e)
 				{
 					(*it)->moveDown();
 					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + m_nOffset);
+					hasTileBeenMoved = true;
 					std::cout << "MoveDown \n\n";
 					break;
 				}
@@ -154,6 +168,7 @@ void Board::handleEvent(SDL_Event e)
 				{
 					(*it)->moveUp();
 					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - m_nOffset);
+					hasTileBeenMoved = true;
 					std::cout << "MoveUp \n\n";
 					break;
 				}
@@ -161,6 +176,7 @@ void Board::handleEvent(SDL_Event e)
 				{
 					(*it)->moveRight();
 					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
+					hasTileBeenMoved = true;
 					std::cout << "MoveRight \n\n";
 					break;
 				}
@@ -168,15 +184,14 @@ void Board::handleEvent(SDL_Event e)
 				{
 					(*it)->moveLeft();
 					std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - 1);
+					hasTileBeenMoved = true;
 					std::cout << "MoveLeft \n\n";
 					break;
 				}
 			}
-			updatePositions();
-			isItSolved();
 		}
 	}
-
+	updatePositions();
 	fillBoard();
 }
 void Board::freeTiles()
@@ -203,6 +218,10 @@ void Board::printPositions()
 		{
 			std::cout << "Initial Pos: " << (*it)->getInitialPos() << " - " << (*it)->getCurrPos() << " Current Pos " << std::endl;
 		}
+		else
+		{
+			std::cout << "This pos is empty\n";
+		}
 	}
 }
 
@@ -227,14 +246,25 @@ bool Board::isItSolved()
 
 void Board::updatePositions()
 {
-	int i = 0;
-	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+	if( hasTileBeenMoved )
 	{
-		if( (*it) != NULL)
+		int i = 0;
+		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 		{
-			(*it)->setCurrPos(i);
+			if( (*it) != NULL)
+			{
+				(*it)->setCurrPos(i);
+			}
+			i++;
 		}
-		i++;
+		isItSolved();
 	}
+
+	hasTileBeenMoved = false;
+}
+
+bool Board::getSuccess()
+{
+	return success;
 }
 Board* Board::board = NULL;

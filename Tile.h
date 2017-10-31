@@ -20,6 +20,8 @@ public:
 
 	SDL_Rect& getTilePos();
 
+	void setColour( int red, int green, int blue );
+
 	void moveDown();
 	void moveUp();
 	void moveRight();
@@ -55,6 +57,10 @@ private:
 
 	int initialPos;
 	int currPos;
+
+	int r;
+	int g;
+	int b;
 
 
 

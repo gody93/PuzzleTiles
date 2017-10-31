@@ -46,7 +46,7 @@ void Application::Start()
 			{
 				Board::getBoard()->handleEvent(e);
 				//User requests quit
-				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) || Board::getBoard()->success )
+				if ( e.type == SDL_QUIT || ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE ) )
 				{
 					quit = true;
 					std::cout << "Game Quits \n";
@@ -54,6 +54,10 @@ void Application::Start()
 				else if( ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p ) )
 				{
 					Board::getBoard()->printPositions();
+				}
+				else if( Board::getBoard()->getSuccess() )
+				{
+					std::cout << " Congratulations ! \n";
 				}
 			}
 		}

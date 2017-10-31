@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5)
+Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5), m_tile(NULL)
 {
 	isInside = false;
 }
@@ -13,11 +13,13 @@ Tile::~Tile()
 
 SDL_Surface* Tile::getSurface()
 {
-	/* Creating the surface. */
-	this->m_tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
-	/* Filling the surface with red color. */
-	SDL_FillRect(this->m_tile, NULL, SDL_MapRGB(this->m_tile->format, 31, 40, 7));
+	if( m_tile == NULL)
+	{
+		/* Creating the surface. */
+		this->m_tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
 
+		SDL_FillRect(this->m_tile, NULL, SDL_MapRGB(this->m_tile->format, r, g, b));
+	}
 	return this->m_tile;
 }
 
@@ -116,5 +118,12 @@ bool Tile::isInCorrectPlace()
 
 void Tile::setCurrPos( int pos )
 {
-	currPos = pos;
+	this->currPos = pos;
+}
+
+void Tile::setColour( int red, int green, int blue )
+{
+	r = red;
+	g = green;
+	b = blue;
 }

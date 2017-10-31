@@ -27,9 +27,8 @@ public:
 	void printPositions();
 	void updatePositions();
 	bool isItSolved();
+	bool getSuccess();
 	~Board();
-	bool success;
-
 
 private:
 	Board();
@@ -46,8 +45,12 @@ private:
 
 	SDL_Rect boardPos;
 	bool firstDraw;
+	bool hasTileBeenMoved;
+	bool success;
 
 	SDL_Surface* background;
+
+	int r; int g; int b;
 
 	//std::array< std::array<Tile*,bCols>, bRows> playBoard;
 	std::vector<Tile*> playBoard;
