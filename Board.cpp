@@ -1,9 +1,10 @@
 #include "Board.h"
 
 Board::Board() : success(false)
-			   , m_nBoardWidth(245)
-			   , m_nBoardHeight(145)
+			   , m_nBoardWidth(320)
+			   , m_nBoardHeight(190)
 			   , m_nOffset(5)
+			   , tilesCount(15)
 			   , firstDraw(false)
 			   , hasTileBeenMoved(false)
 			   , background(NULL)
@@ -61,14 +62,6 @@ SDL_Surface* Board::getSurface()
 	SDL_FillRect(background , NULL, SDL_MapRGB(background->format, 216, 120, 41));
 
 	return this->background;
-	// if(!firstDraw)
-	// {
-	// 	return this->background;
-	// }
-	// else
-	// {
-	// 	return this->moddedBackground;
-	// }
 }
 
 void Board::fillBoard()
@@ -95,20 +88,20 @@ void Board::fillBoard()
 			(*it)->setColour(r,g,b);
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			SDL_BlitSurface((*it)->getSurface(), NULL, background , &((*it)->getPos()) );
-			x += (*it)->getHeight() + 5;
+			x += (*it)->getHeight() + m_nOffset;
 
 			switch(i)
 			{
 			case 4:
 				x = 0;
-				y += (*it)->getHeight() + 5;
+				y += (*it)->getHeight() + m_nOffset;
 				r = 26;
 				g = 132;
 				b = 44;
 				break;
 			case 9:
 				x = 0;
-				y += (*it)->getHeight() + 5;
+				y += (*it)->getHeight() + m_nOffset;
 				r = 219;
 				g = b = 24;
 				break;
@@ -138,11 +131,6 @@ int Board::getWidth() const
 int Board::getHeight() const
 {
 	return m_nBoardHeight;
-}
-
-Tile* Board::getTile()
-{
-	return playBoardToModify.at(1);
 }
 
 void Board::handleEvent(SDL_Event e)

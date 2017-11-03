@@ -27,8 +27,6 @@ public:
 	void moveRight();
 	void moveLeft();
 
-	bool checkCollision();
-
 	bool isInsideTile(int,int);
 
 	void setMousePos(int x, int y);

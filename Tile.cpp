@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : m_nTileWidth(45), m_nTileHeight(45), offset(5), m_tile(NULL)
+Tile::Tile() : m_nTileWidth(60), m_nTileHeight(60), offset(5), m_tile(NULL)
 {
 	isInside = false;
 }
@@ -61,15 +61,6 @@ void Tile::setMousePos(int x, int y)
 {
 	mousePos.x = x;
 	mousePos.y = y;
-}
-
-bool Tile::checkCollision()
-{
-	// if( ( tilePos.y + m_nTileHeight) >= (Board::getBoard()->getPos().y + Board::getBoard()->getHeight()) )
-	// {
-	// 	return false;
-	// }
-	// return true;
 }
 
 bool Tile::isInsideTile(int x, int y)
