@@ -1,6 +1,6 @@
 #include "DrawMgr.h"
 
-DrawMgr::DrawMgr() : nScreenWidth(500), nScreenHeight(500), window(NULL), screenSurface(NULL), screenBackground(NULL), boardBackground(NULL), tileMarker(NULL)
+DrawMgr::DrawMgr() : nScreenWidth(500), nScreenHeight(500), window(NULL), screenSurface(NULL), screenBackground(NULL), boardBackground(NULL)
 {
 
 }
@@ -64,7 +64,7 @@ bool DrawMgr::CreateWindow()
         }
 	}
 
-	if( !loadMedia() )
+	if( !LoadMedia() )
 	{
 		std::cout << "Failed to load media!\n";
 		return false;
@@ -72,7 +72,7 @@ bool DrawMgr::CreateWindow()
 	return true;
 }
 
-bool DrawMgr::loadMedia()
+bool DrawMgr::LoadMedia()
 {
     //Loading success flag
     bool success = true;
@@ -85,12 +85,7 @@ bool DrawMgr::loadMedia()
         success = false;
     }
 
-	// tileMarker = SDL_LoadBMP( "img/marker.bmp");
-	// if( tileMarker == NULL )
-    // {
-    //     printf( "Unable to load image marker! SDL Error: %s\n", "img", SDL_GetError() );
-    //     success = false;
-    // }
+	LoadTileResources();
 
 	boardBackground = Board::getBoard()->getSurface();
 	if( boardBackground == NULL)
@@ -98,8 +93,6 @@ bool DrawMgr::loadMedia()
 		printf( "Unable to load board background!" );
 		success = false;
 	}
-
-
     return success;
 }
 
@@ -118,8 +111,29 @@ void DrawMgr::DrawBoard()
 	SDL_BlitSurface( boardBackground , NULL, screenSurface, &(Board::getBoard()->getPos()) );
 }
 
-SDL_Surface* DrawMgr::getMarker()
+void DrawMgr::DrawTile(Tile* tile,SDL_Surface* surface)
 {
-	return tileMarker;
+	SDL_BlitSurface( tile->getSurface(), NULL, surface, &tile->getPos() );
 }
+
+void DrawMgr::LoadTileResources()
+{
+	std::ifstream stream("img/resources.txt");
+
+	std::string line;
+	if( stream.is_open() )
+	{
+		while(getline( stream,line) )
+		{
+			resources.push_back(line);
+		}
+		stream.close();
+	}
+}
+
+std::string DrawMgr::GetTileResource(int i)
+{
+	return resources.at(i);
+}
+
 DrawMgr* DrawMgr::mgr = NULL;

@@ -3,7 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <fstream>
 #include "Board.h"
+#include "Tile.h"
 
 
 class DrawMgr
@@ -12,13 +14,13 @@ public:
 	static DrawMgr* getMgr();
 	~DrawMgr();
 	bool CreateWindow();
-	bool loadMedia();
-
-	SDL_Surface* getMarker();
-
+	bool LoadMedia();
 	void DrawScreenBackground();
 	void DrawBoard();
+	void DrawTile(Tile*,SDL_Surface*);
 	void UpdateScreen();
+	void LoadTileResources();
+	std::string GetTileResource(int);
 
 	int getScreenWidth() { return nScreenWidth; }
 	int getScreenHeight() { return nScreenHeight; }
@@ -35,6 +37,8 @@ private:
 	SDL_Surface* screenBackground;
 	SDL_Surface* boardBackground;
 	SDL_Surface* tileMarker;
+
+	std::vector<std::string>resources;
 
 };
 

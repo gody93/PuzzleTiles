@@ -38,6 +38,7 @@ public:
 	void setCurrPos(int);
 
 	bool isInCorrectPlace();
+	void setSurface(std::string);
 
 private:
 	int m_nTileWidth;

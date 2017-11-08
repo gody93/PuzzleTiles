@@ -13,13 +13,7 @@ Tile::~Tile()
 
 SDL_Surface* Tile::getSurface()
 {
-	if( m_tile == NULL)
-	{
-		/* Creating the surface. */
-		this->m_tile = SDL_CreateRGBSurface(0, m_nTileHeight, m_nTileWidth, 32, 0, 0, 0, 0);
 
-		SDL_FillRect(this->m_tile, NULL, SDL_MapRGB(this->m_tile->format, r, g, b));
-	}
 	return this->m_tile;
 }
 
@@ -117,4 +111,14 @@ void Tile::setColour( int red, int green, int blue )
 	r = red;
 	g = green;
 	b = blue;
+}
+
+void Tile::setSurface( std::string path)
+{
+	std::string fullPath = "img/" + path;
+	this->m_tile = SDL_LoadBMP( fullPath.c_str() );
+	if( this->m_tile == NULL)
+	{
+		printf( "Unable to load image Tile - %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+	}
 }

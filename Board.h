@@ -27,6 +27,7 @@ public:
 	void updatePositions();
 	bool isItSolved();
 	bool getSuccess();
+	void randomize();
 	~Board();
 
 private:
