@@ -14,7 +14,7 @@ public:
 	~Tile();
 	virtual SDL_Surface* getSurface();
 	virtual SDL_Rect& getPos();
-	virtual void setPos(int = 0,int = 0);
+	virtual void setPos(int = 0, int = 0);
 	virtual int getWidth() const;
 	virtual int getHeight() const;
 
@@ -60,6 +60,10 @@ private:
 	int r;
 	int g;
 	int b;
+
+	int x;
+	int y;
+
 
 
 

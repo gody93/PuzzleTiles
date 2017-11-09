@@ -83,25 +83,9 @@ void Board::fillBoard()
 		if(!firstDraw && (*it) != NULL)
 		{
 			(*it)->setInitalPos(i);
-			(*it)->setPos(x,y);
+			(*it)->setPos(i);
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			DrawMgr::getMgr()->DrawTile(*it, background);
-			x += (*it)->getHeight() + m_nOffset;
-
-			switch(i)
-			{
-			case 4:
-				x = 0;
-				y += (*it)->getHeight() + m_nOffset;
-				break;
-			case 9:
-				x = 0;
-				y += (*it)->getHeight() + m_nOffset;
-				break;
-			default:break;
-
-			}
-
 			i++;
 		}
 		else
@@ -155,8 +139,8 @@ void Board::handleEvent(SDL_Event e)
 						std::cout << "MoveUp \n\n";
 						break;
 					}
-					else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( (*it)->getCurrPos() + 1) == NULL ) )
-					{
+					else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( (*it)->getCurrPos() + 1) == NULL ) ) // Compare it to the board width
+					{																																   // because its a vector and not a 2 array
 						(*it)->moveRight();
 						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
 						hasTileBeenMoved = true;
@@ -254,7 +238,23 @@ bool Board::getSuccess()
 
 void Board::randomize()
 {
-	std::iter_swap(playBoardToModify.begin() + 10, playBoardToModify.begin() + 15);
+	// std::iter_swap(playBoardToModify.begin() + 8, playBoardToModify.begin() + 9);
+	// std::iter_swap(playBoardToModify.begin() + 12, playBoardToModify.begin() + 13);
+
+	// SDL_Rect tempPos = playBoardToModify.at(8)->getPos();
+	// playBoardToModify.at(8)->setPos( playBoardToModify.at(9)->getPos().x, playBoardToModify.at(9)->getPos().y);
+	// playBoardToModify.at(9)->setPos( tempPos.x, tempPos.y );
+
+	// SDL_Rect tempPos1 = playBoardToModify.at(12)->getPos();
+	// playBoardToModify.at(12)->setPos( playBoardToModify.at(13)->getPos().x, playBoardToModify.at(13)->getPos().y);
+	// playBoardToModify.at(13)->setPos( tempPos1.x, tempPos1.y );
+
+	std::random_device rd;
+    std::mt19937 g(rd());
+
+	std::shuffle( playBoardToModify.begin(),playBoardToModify.end(), g );
+
+
 	hasTileBeenMoved = true;
 	updatePositions();
 	fillBoard();

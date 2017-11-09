@@ -6,7 +6,9 @@
 #include "Tile.h"
 
 #include <vector>
-#include <array>
+#include <random>
+#include <algorithm>
+#include <iterator>
 
 class Board : public Cube
 {
