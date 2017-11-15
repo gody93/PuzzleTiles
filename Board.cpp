@@ -21,6 +21,7 @@ Board::Board() : success(false)
 	{
 		(*it) = new Tile();
 		(*it)->setSurface(DrawMgr::getMgr()->GetTileResource(i));
+		(*it)->setInitialPos(i);
 		i++;
 	}
 
@@ -80,21 +81,26 @@ void Board::fillBoard()
 
 	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
-		if(!firstDraw && (*it) != NULL)
+		// if(!firstDraw && (*it) != NULL)
+		// {
+		// 	(*it)->setPos();
+		// 	(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
+		// 	DrawMgr::getMgr()->DrawTile(*it, background);
+		// 	i++;
+		// }
+		// else
+		// {
+		// 	if( (*it) != NULL)
+		// 	{
+		// 		(*it)->setMousePos( (*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
+		// 		DrawMgr::getMgr()->DrawTile(*it, background);
+		// 	}
+		// }
+		if( (*it) != NULL)
 		{
-			(*it)->setInitalPos(i);
-			(*it)->setPos(i);
+			//(*it)->setPos();
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			DrawMgr::getMgr()->DrawTile(*it, background);
-			i++;
-		}
-		else
-		{
-			if( (*it) != NULL)
-			{
-				(*it)->setMousePos( (*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
-				DrawMgr::getMgr()->DrawTile(*it, background);
-			}
 		}
 	}
 
@@ -126,7 +132,7 @@ void Board::handleEvent(SDL_Event e)
 					if( ( (*it)->getCurrPos() + m_nOffset < playBoardToModify.size() ) && ( playBoardToModify.at((*it)->getCurrPos() + m_nOffset) == NULL ) )
 					{
 						(*it)->moveDown();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + m_nOffset);
+						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - m_nOffset);
 						hasTileBeenMoved = true;
 						std::cout << "MoveDown \n\n";
 						break;
@@ -134,7 +140,7 @@ void Board::handleEvent(SDL_Event e)
 					else if( ( (*it)->getCurrPos() - m_nOffset >= 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - m_nOffset) == NULL) )
 					{
 						(*it)->moveUp();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - m_nOffset);
+						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + m_nOffset);
 						hasTileBeenMoved = true;
 						std::cout << "MoveUp \n\n";
 						break;
@@ -142,7 +148,7 @@ void Board::handleEvent(SDL_Event e)
 					else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( (*it)->getCurrPos() + 1) == NULL ) ) // Compare it to the board width
 					{																																   // because its a vector and not a 2 array
 						(*it)->moveRight();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
+						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - 1);
 						hasTileBeenMoved = true;
 						std::cout << "MoveRight \n\n";
 						break;
@@ -150,7 +156,7 @@ void Board::handleEvent(SDL_Event e)
 					else if ( ( (*it)->getPos().x > 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - 1) == NULL ) )
 					{
 						(*it)->moveLeft();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - 1);
+						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
 						hasTileBeenMoved = true;
 						std::cout << "MoveLeft \n\n";
 						break;
@@ -216,15 +222,15 @@ void Board::updatePositions()
 {
 	if( hasTileBeenMoved )
 	{
-		int i = 0;
-		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
-		{
-			if( (*it) != NULL)
-			{
-				(*it)->setCurrPos(i);
-			}
-			i++;
-		}
+		// int i = 0;
+		// for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		// {
+		// 	if( (*it) != NULL)
+		// 	{
+		// 		(*it)->setCurrPos(i);
+		// 	}
+		// 	i++;
+		// }
 		isItSolved();
 	}
 

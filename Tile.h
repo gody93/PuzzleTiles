@@ -31,7 +31,7 @@ public:
 
 	void setMousePos(int x, int y);
 
-	void setInitalPos(int);
+	void setInitialPos(int);
 	int getInitialPos() const;
 
 	int getCurrPos() const;
