@@ -81,24 +81,8 @@ void Board::fillBoard()
 
 	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
-		// if(!firstDraw && (*it) != NULL)
-		// {
-		// 	(*it)->setPos();
-		// 	(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
-		// 	DrawMgr::getMgr()->DrawTile(*it, background);
-		// 	i++;
-		// }
-		// else
-		// {
-		// 	if( (*it) != NULL)
-		// 	{
-		// 		(*it)->setMousePos( (*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
-		// 		DrawMgr::getMgr()->DrawTile(*it, background);
-		// 	}
-		// }
 		if( (*it) != NULL)
 		{
-			//(*it)->setPos();
 			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
 			DrawMgr::getMgr()->DrawTile(*it, background);
 		}
@@ -222,15 +206,15 @@ void Board::updatePositions()
 {
 	if( hasTileBeenMoved )
 	{
-		// int i = 0;
-		// for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
-		// {
-		// 	if( (*it) != NULL)
-		// 	{
-		// 		(*it)->setCurrPos(i);
-		// 	}
-		// 	i++;
-		// }
+		int i = 0;
+		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		{
+			if( (*it) != NULL)
+			{
+				(*it)->setCurrPos(i);
+			}
+			i++;
+		}
 		isItSolved();
 	}
 
@@ -244,26 +228,13 @@ bool Board::getSuccess()
 
 void Board::randomize()
 {
-	// std::iter_swap(playBoardToModify.begin() + 8, playBoardToModify.begin() + 9);
-	// std::iter_swap(playBoardToModify.begin() + 12, playBoardToModify.begin() + 13);
-
-	// SDL_Rect tempPos = playBoardToModify.at(8)->getPos();
-	// playBoardToModify.at(8)->setPos( playBoardToModify.at(9)->getPos().x, playBoardToModify.at(9)->getPos().y);
-	// playBoardToModify.at(9)->setPos( tempPos.x, tempPos.y );
-
-	// SDL_Rect tempPos1 = playBoardToModify.at(12)->getPos();
-	// playBoardToModify.at(12)->setPos( playBoardToModify.at(13)->getPos().x, playBoardToModify.at(13)->getPos().y);
-	// playBoardToModify.at(13)->setPos( tempPos1.x, tempPos1.y );
-
 	std::random_device rd;
     std::mt19937 g(rd());
 
 	std::shuffle( playBoardToModify.begin(),playBoardToModify.end(), g );
 
-
 	hasTileBeenMoved = true;
 	updatePositions();
-	fillBoard();
 }
 
 Board* Board::board = NULL;
