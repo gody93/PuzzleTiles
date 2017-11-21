@@ -7,7 +7,7 @@ class Cube
 {
 public:
 	Cube();
-	~Cube();
+	virtual ~Cube();
 
 	virtual SDL_Surface* getSurface() = 0;
 	virtual SDL_Rect& getPos() = 0;

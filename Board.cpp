@@ -7,6 +7,7 @@ Board::Board() : success(false)
 			   , tilesCount(15)
 			   , firstDraw(false)
 			   , hasTileBeenMoved(false)
+			   , hasSolution(false)
 			   , background(NULL)
 			   , r(0)
 			   , g(0)
@@ -17,7 +18,7 @@ Board::Board() : success(false)
 	boardPos.y = (DrawMgr::getMgr()->getScreenHeight() - m_nBoardHeight) / 2;
 
 	int i = 0;
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
+	for	(std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end() - 1; it++)
 	{
 		(*it) = new Tile();
 		(*it)->setSurface(DrawMgr::getMgr()->GetTileResource(i));
@@ -70,21 +71,18 @@ SDL_Surface* Board::getSurface()
 
 void Board::fillBoard()
 {
-	int x = 0;
-	int y = 0;
-	int i = 0;
-
 	if(firstDraw)
 	{
 		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
 	}
 
-	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+	for( auto tile: playBoardToModify )
+		//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
-		if( (*it) != NULL)
+		if( tile != NULL)
 		{
-			(*it)->setMousePos((*it)->getPos().x + boardPos.x , (*it)->getPos().y + boardPos.y);
-			DrawMgr::getMgr()->DrawTile(*it, background);
+			tile->setMousePos(tile->getPos().x + boardPos.x , tile->getPos().y + boardPos.y);
+			DrawMgr::getMgr()->DrawTile(tile, background);
 		}
 	}
 
@@ -104,43 +102,44 @@ void Board::handleEvent(SDL_Event e)
 {
 	if( e.type == SDL_MOUSEBUTTONUP )
 	{
-		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		for( auto tile: playBoardToModify )
+			//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 		{
-			if( (*it) != NULL )
+			if( tile != NULL )
 			{
 				int x,y;
 				SDL_GetMouseState(&x, &y);
 				//Mouse is right of the button
-				if( (*it)->isInsideTile(x,y) )
+				if( tile->isInsideTile(x,y) )
 				{
-					if( ( (*it)->getCurrPos() + m_nOffset < playBoardToModify.size() ) && ( playBoardToModify.at((*it)->getCurrPos() + m_nOffset) == NULL ) )
+					if( ( tile->getCurrPos() + m_nOffset < playBoardToModify.size() ) && ( playBoardToModify.at(tile->getCurrPos() + m_nOffset) == NULL ) )
 					{
-						(*it)->moveDown();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - m_nOffset);
+						tile->moveDown();
+						std::iter_swap(playBoardToModify.begin() + tile->getCurrPos(), playBoardToModify.begin() + tile->getCurrPos() - m_nOffset);
 						hasTileBeenMoved = true;
 						std::cout << "MoveDown \n\n";
 						break;
 					}
-					else if( ( (*it)->getCurrPos() - m_nOffset >= 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - m_nOffset) == NULL) )
+					else if( ( tile->getCurrPos() - m_nOffset >= 0 ) && ( playBoardToModify.at( tile->getCurrPos() - m_nOffset) == NULL) )
 					{
-						(*it)->moveUp();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + m_nOffset);
+						tile->moveUp();
+						std::iter_swap(playBoardToModify.begin() + tile->getCurrPos(), playBoardToModify.begin() + tile->getCurrPos() + m_nOffset);
 						hasTileBeenMoved = true;
 						std::cout << "MoveUp \n\n";
 						break;
 					}
-					else if( ( (*it)->getPos().x + (*it)->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( (*it)->getCurrPos() + 1) == NULL ) ) // Compare it to the board width
+					else if( ( tile->getPos().x + tile->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( tile->getCurrPos() + 1) == NULL ) ) // Compare it to the board width
 					{																																   // because its a vector and not a 2 array
-						(*it)->moveRight();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() - 1);
+						tile->moveRight();
+						std::iter_swap(playBoardToModify.begin() + tile->getCurrPos(), playBoardToModify.begin() + tile->getCurrPos() - 1);
 						hasTileBeenMoved = true;
 						std::cout << "MoveRight \n\n";
 						break;
 					}
-					else if ( ( (*it)->getPos().x > 0 ) && ( playBoardToModify.at( (*it)->getCurrPos() - 1) == NULL ) )
+					else if ( ( tile->getPos().x > 0 ) && ( playBoardToModify.at( tile->getCurrPos() - 1) == NULL ) )
 					{
-						(*it)->moveLeft();
-						std::iter_swap(playBoardToModify.begin() + (*it)->getCurrPos(), playBoardToModify.begin() + (*it)->getCurrPos() + 1);
+						tile->moveLeft();
+						std::iter_swap(playBoardToModify.begin() + tile->getCurrPos(), playBoardToModify.begin() + tile->getCurrPos() + 1);
 						hasTileBeenMoved = true;
 						std::cout << "MoveLeft \n\n";
 						break;
@@ -154,27 +153,28 @@ void Board::handleEvent(SDL_Event e)
 }
 void Board::freeTiles()
 {
-	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+	for( auto tile: playBoardToModify )
+//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
-		delete (*it);
-		*it = NULL;
+		delete tile;
+		tile = NULL;
 	}
 
-	for( std::vector<Tile*>::iterator it = playBoard.begin(); it != playBoard.end(); it++)
+	for( auto tile: playBoard )
 	{
-		delete (*it);
-		*it = NULL;
+		delete tile;
+		tile = NULL;
 	}
 
 }
 
 void Board::printPositions()
 {
-	for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+	for( auto tile: playBoardToModify )
 	{
-		if( (*it) != NULL)
+		if( tile != NULL)
 		{
-			std::cout << "Initial Pos: " << (*it)->getInitialPos() << " - " << (*it)->getCurrPos() << " Current Pos " << std::endl;
+			std::cout << "Initial Pos: " << tile->getInitialPos() << " - " << tile->getCurrPos() << " Current Pos " << std::endl;
 		}
 		else
 		{
@@ -188,11 +188,11 @@ bool Board::isItSolved()
 	success = false;
 	if( playBoardToModify == playBoard )
 	{
-		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		for( auto tile: playBoardToModify )
 		{
-			if( (*it) != NULL)
+			if( tile != NULL)
 			{
-				if(  (*it)->isInCorrectPlace() )
+				if(  tile->isInCorrectPlace() )
 				{
 					success = true;
 				}
@@ -202,16 +202,39 @@ bool Board::isItSolved()
 	return success;
 }
 
+void Board::isThereASolution()
+{
+	int changesMade = 0;
+	hasSolution = false;
+	for( auto tile: playBoardToModify )
+	{
+		if( tile != NULL )
+		{
+			changesMade += abs( tile->getInitialPos() - tile->getCurrPos() );
+		}
+	}
+
+	if( changesMade % 2 == 0)
+	{
+		hasSolution = true;
+		std::cout << "There is solution\n\n";
+	}
+	else
+	{
+		std::cout << "No solution \n\n";
+	}
+}
+
 void Board::updatePositions()
 {
 	if( hasTileBeenMoved )
 	{
 		int i = 0;
-		for( std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
+		for( auto tile: playBoardToModify )
 		{
-			if( (*it) != NULL)
+			if( tile != NULL)
 			{
-				(*it)->setCurrPos(i);
+				tile->setCurrPos(i);
 			}
 			i++;
 		}
@@ -231,10 +254,13 @@ void Board::randomize()
 	std::random_device rd;
     std::mt19937 g(rd());
 
-	std::shuffle( playBoardToModify.begin(),playBoardToModify.end(), g );
-
-	hasTileBeenMoved = true;
-	updatePositions();
+	do
+	{
+		std::shuffle( playBoardToModify.begin(),playBoardToModify.end(), g );
+		hasTileBeenMoved = true;
+		updatePositions();
+		isThereASolution();
+	}while( !hasSolution );
 }
 
 Board* Board::board = NULL;

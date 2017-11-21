@@ -9,6 +9,7 @@
 #include <random>
 #include <algorithm>
 #include <iterator>
+#include <cmath>
 
 class Board : public Cube
 {
@@ -30,6 +31,7 @@ public:
 	bool isItSolved();
 	bool getSuccess();
 	void randomize();
+	void isThereASolution();
 	~Board();
 
 private:
@@ -47,6 +49,7 @@ private:
 	SDL_Rect boardPos;
 	bool firstDraw;
 	bool hasTileBeenMoved;
+	bool hasSolution;
 
 	SDL_Surface* background;
 

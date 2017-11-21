@@ -58,12 +58,11 @@ void Application::Start()
 				else if( ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_r ) )
 				{
 					Board::getBoard()->randomize();
-					std::cout << "Randomized \n\n";
 				}
-				else if( Board::getBoard()->getSuccess() )
-				{
-					std::cout << " Congratulations ! \n";
-				}
+			}
+			if( Board::getBoard()->getSuccess() )
+			{
+				std::cout << " Congratulations ! \n";
 			}
 		}
 	}
