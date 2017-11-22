@@ -32,6 +32,7 @@ public:
 	bool getSuccess();
 	void randomize();
 	void isThereASolution();
+	void endGame();
 	~Board();
 
 private:
@@ -47,7 +48,7 @@ private:
 	const int tilesCount;
 
 	SDL_Rect boardPos;
-	bool firstDraw;
+	bool hasGameEnded;
 	bool hasTileBeenMoved;
 	bool hasSolution;
 

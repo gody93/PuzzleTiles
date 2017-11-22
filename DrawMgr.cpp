@@ -17,9 +17,6 @@ DrawMgr::~DrawMgr()
 	SDL_FreeSurface( screenSurface );
 	screenSurface = NULL;
 
-	SDL_FreeSurface( tileMarker );
-	tileMarker= NULL;
-
 	SDL_FreeSurface( boardBackground );
 	boardBackground = NULL;
 

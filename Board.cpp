@@ -5,7 +5,7 @@ Board::Board() : success(false)
 			   , m_nBoardHeight(190)
 			   , m_nOffset(5)
 			   , tilesCount(15)
-			   , firstDraw(false)
+			   , hasGameEnded(false)
 			   , hasTileBeenMoved(false)
 			   , hasSolution(false)
 			   , background(NULL)
@@ -71,13 +71,9 @@ SDL_Surface* Board::getSurface()
 
 void Board::fillBoard()
 {
-	if(firstDraw)
-	{
-		SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
-	}
+	SDL_FillRect(background, NULL, SDL_MapRGB(background->format, 216, 120, 41));
 
 	for( auto tile: playBoardToModify )
-		//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		if( tile != NULL)
 		{
@@ -85,8 +81,6 @@ void Board::fillBoard()
 			DrawMgr::getMgr()->DrawTile(tile, background);
 		}
 	}
-
-	firstDraw = true;
 }
 int Board::getWidth() const
 {
@@ -103,7 +97,6 @@ void Board::handleEvent(SDL_Event e)
 	if( e.type == SDL_MOUSEBUTTONUP )
 	{
 		for( auto tile: playBoardToModify )
-			//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 		{
 			if( tile != NULL )
 			{
@@ -129,7 +122,7 @@ void Board::handleEvent(SDL_Event e)
 						break;
 					}
 					else if( ( tile->getPos().x + tile->getWidth() < m_nBoardWidth ) && ( playBoardToModify.at( tile->getCurrPos() + 1) == NULL ) ) // Compare it to the board width
-					{																																   // because its a vector and not a 2 array
+					{																																// because its a vector and not a 2 array
 						tile->moveRight();
 						std::iter_swap(playBoardToModify.begin() + tile->getCurrPos(), playBoardToModify.begin() + tile->getCurrPos() - 1);
 						hasTileBeenMoved = true;
@@ -154,7 +147,6 @@ void Board::handleEvent(SDL_Event e)
 void Board::freeTiles()
 {
 	for( auto tile: playBoardToModify )
-//std::vector<Tile*>::iterator it = playBoardToModify.begin(); it != playBoardToModify.end(); it++)
 	{
 		delete tile;
 		tile = NULL;
@@ -185,7 +177,7 @@ void Board::printPositions()
 
 bool Board::isItSolved()
 {
-	success = false;
+	hasGameEnded = false;
 	if( playBoardToModify == playBoard )
 	{
 		for( auto tile: playBoardToModify )
@@ -194,12 +186,12 @@ bool Board::isItSolved()
 			{
 				if(  tile->isInCorrectPlace() )
 				{
-					success = true;
+					hasGameEnded = true;
 				}
 			}
 		}
 	}
-	return success;
+	return hasGameEnded;
 }
 
 void Board::isThereASolution()
@@ -246,7 +238,7 @@ void Board::updatePositions()
 
 bool Board::getSuccess()
 {
-	return success;
+	return hasGameEnded;
 }
 
 void Board::randomize()
@@ -261,6 +253,11 @@ void Board::randomize()
 		updatePositions();
 		isThereASolution();
 	}while( !hasSolution );
+}
+
+void Board::endGame()
+{
+	hasGameEnded = true;
 }
 
 Board* Board::board = NULL;

@@ -36,7 +36,6 @@ private:
 	SDL_Surface* screenSurface;
 	SDL_Surface* screenBackground;
 	SDL_Surface* boardBackground;
-	SDL_Surface* tileMarker;
 
 	std::vector<std::string>resources;
 
