@@ -38,7 +38,8 @@ void Application::Start()
 
 			DrawMgr::getMgr()->DrawScreenBackground();
 
-			DrawMgr::getMgr()->DrawBoard();
+			if( !Board::getBoard()->getSuccess() )
+				DrawMgr::getMgr()->DrawBoard();
 
 			DrawMgr::getMgr()->UpdateScreen();
 			//Handle events on queue
@@ -62,8 +63,11 @@ void Application::Start()
 				{
 					Board::getBoard()->randomize();
 				}
+				else if( ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_s ) )
+				{
+					Board::getBoard()->startGame();
+				}
 			}
-
 		}
 	}
 }

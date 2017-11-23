@@ -71,20 +71,19 @@ bool DrawMgr::CreateWindow()
 
 bool DrawMgr::LoadMedia()
 {
-    //Loading success flag
     bool success = true;
 
-    //Load splash image
     screenBackground = SDL_LoadBMP( "img/wallpaper.bmp" );
     if( screenBackground == NULL )
     {
-        printf( "Unable to load image wallpaper! SDL Error: %s\n", "img", SDL_GetError() );
+        printf( "Unable to load image wallpaper! SDL Error: %s\n", SDL_GetError() );
         success = false;
     }
 
 	LoadTileResources();
 
 	boardBackground = Board::getBoard()->getSurface();
+
 	if( boardBackground == NULL)
 	{
 		printf( "Unable to load board background!" );
@@ -120,7 +119,7 @@ void DrawMgr::LoadTileResources()
 	std::string line;
 	if( stream.is_open() )
 	{
-		while(getline( stream,line) )
+		while(getline( stream, line ) )
 		{
 			resources.push_back(line);
 		}

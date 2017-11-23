@@ -184,7 +184,7 @@ bool Board::isItSolved()
 		{
 			if( tile != NULL)
 			{
-				if(  tile->isInCorrectPlace() )
+				if( tile->isInCorrectPlace() )
 				{
 					hasGameEnded = true;
 				}
@@ -219,24 +219,26 @@ void Board::isThereASolution()
 
 void Board::updatePositions()
 {
+
+	int i = 0;
+	for( auto tile: playBoardToModify )
+	{
+		if( tile != NULL)
+		{
+			tile->setCurrPos(i);
+		}
+		i++;
+	}
+
 	if( hasTileBeenMoved )
 	{
-		int i = 0;
-		for( auto tile: playBoardToModify )
-		{
-			if( tile != NULL)
-			{
-				tile->setCurrPos(i);
-			}
-			i++;
-		}
 		isItSolved();
 	}
 
 	hasTileBeenMoved = false;
 }
 
-bool Board::getSuccess()
+bool Board::getSuccess() const
 {
 	return hasGameEnded;
 }
@@ -252,12 +254,16 @@ void Board::randomize()
 		hasTileBeenMoved = true;
 		updatePositions();
 		isThereASolution();
-	}while( !hasSolution );
+	}
+	while( !hasSolution );
 }
 
-void Board::endGame()
+void Board::startGame()
 {
-	hasGameEnded = true;
+	playBoardToModify = playBoard;
+	hasTileBeenMoved = false;
+	hasGameEnded = false;
+	updatePositions();
 }
 
 Board* Board::board = NULL;

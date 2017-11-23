@@ -29,10 +29,10 @@ public:
 	void printPositions();
 	void updatePositions();
 	bool isItSolved();
-	bool getSuccess();
+	bool getSuccess() const;
 	void randomize();
 	void isThereASolution();
-	void endGame();
+	void startGame();
 	~Board();
 
 private:
