@@ -20,6 +20,7 @@ public:
 	void DrawTile(Tile*,SDL_Surface*);
 	void UpdateScreen();
 	void LoadTileResources();
+	void DrawEndSplash();
 	std::string GetTileResource(int);
 
 	int getScreenWidth() { return nScreenWidth; }
@@ -36,6 +37,7 @@ private:
 	SDL_Surface* screenSurface;
 	SDL_Surface* screenBackground;
 	SDL_Surface* boardBackground;
+	SDL_Surface* endSplash;
 
 	std::vector<std::string>resources;
 

@@ -35,11 +35,16 @@ void Application::Start()
 	{
 		while (!quit)
 		{
-
-			DrawMgr::getMgr()->DrawScreenBackground();
-
 			if( !Board::getBoard()->getSuccess() )
+			{
+				DrawMgr::getMgr()->DrawScreenBackground();
+
 				DrawMgr::getMgr()->DrawBoard();
+			}
+			else
+			{
+				DrawMgr::getMgr()->DrawEndSplash();
+			}
 
 			DrawMgr::getMgr()->UpdateScreen();
 			//Handle events on queue

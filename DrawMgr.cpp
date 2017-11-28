@@ -1,6 +1,12 @@
 #include "DrawMgr.h"
 
-DrawMgr::DrawMgr() : nScreenWidth(500), nScreenHeight(500), window(NULL), screenSurface(NULL), screenBackground(NULL), boardBackground(NULL)
+DrawMgr::DrawMgr() : nScreenWidth(500)
+				   , nScreenHeight(500)
+				   , window(NULL)
+				   , screenSurface(NULL)
+				   , screenBackground(NULL)
+				   , boardBackground(NULL)
+				   , endSplash(NULL)
 {
 
 }
@@ -19,6 +25,9 @@ DrawMgr::~DrawMgr()
 
 	SDL_FreeSurface( boardBackground );
 	boardBackground = NULL;
+
+	SDL_FreeSurface( endSplash );
+	endSplash = NULL;
 
     //Destroy window
     SDL_DestroyWindow( window );
@@ -80,6 +89,13 @@ bool DrawMgr::LoadMedia()
         success = false;
     }
 
+	endSplash = SDL_LoadBMP( "img/congratulations.bmp" );
+    if( endSplash == NULL )
+    {
+        printf( "Unable to load image wallpaper! SDL Error: %s\n", SDL_GetError() );
+        success = false;
+    }
+
 	LoadTileResources();
 
 	boardBackground = Board::getBoard()->getSurface();
@@ -130,6 +146,11 @@ void DrawMgr::LoadTileResources()
 std::string DrawMgr::GetTileResource(int i)
 {
 	return resources.at(i);
+}
+
+void DrawMgr::DrawEndSplash()
+{
+	SDL_BlitScaled( endSplash, NULL, screenSurface, NULL );
 }
 
 DrawMgr* DrawMgr::mgr = NULL;
