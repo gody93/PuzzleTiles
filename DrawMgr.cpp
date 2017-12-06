@@ -125,7 +125,12 @@ void DrawMgr::DrawBoard()
 
 void DrawMgr::DrawTile(Tile* tile,SDL_Surface* surface)
 {
-	SDL_BlitSurface( tile->getSurface(), NULL, surface, &tile->getPos() );
+	SDL_Rect h;
+	h.x = tile->getPos().x;
+	h.y = tile->getPos().y;
+	h.w = tile->getWidth();
+	h.h = tile->getHeight();
+	SDL_BlitSurface( tile->getSurface(), &h, surface, &tile->getPos() );
 }
 
 void DrawMgr::LoadTileResources()
@@ -145,7 +150,7 @@ void DrawMgr::LoadTileResources()
 
 std::string DrawMgr::GetTileResource(int i)
 {
-	return resources.at(i);
+	return resources.at(0);
 }
 
 void DrawMgr::DrawEndSplash()

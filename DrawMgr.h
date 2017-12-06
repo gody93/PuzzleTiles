@@ -1,7 +1,7 @@
 #ifndef _DRAWMGR_H
 #define _DRAWMGR_H
 
-#include "include/SDL.h"
+#include "SDL2/SDL.h"
 #include <iostream>
 #include <fstream>
 #include "Board.h"

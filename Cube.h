@@ -1,7 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "include/SDL.h"
+#include "SDL2/SDL.h"
 
 class Cube
 {
