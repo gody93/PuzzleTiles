@@ -1,4 +1,9 @@
 #include "DrawMgr.h"
+#include "Menu.h"
+#include "Board.h"
+#include <iostream>
+#include <fstream>
+
 
 DrawMgr::DrawMgr() : nScreenWidth(500)
 				   , nScreenHeight(500)
@@ -82,6 +87,12 @@ bool DrawMgr::LoadMedia()
 {
     bool success = true;
 
+    if( Menu::getMenu()->getSurface() == NULL )
+    {
+        printf( "Unable to load menu wallpaper! SDL Error: %s\n", SDL_GetError() );
+        success = false;
+    }
+
     screenBackground = SDL_LoadBMP( "img/wallpaper.bmp" );
     if( screenBackground == NULL )
     {
@@ -106,6 +117,11 @@ bool DrawMgr::LoadMedia()
 		success = false;
 	}
     return success;
+}
+
+void DrawMgr::DrawMenu()
+{
+    SDL_BlitScaled( Menu::getMenu()->getSurface(), NULL, screenSurface, NULL);
 }
 
 void DrawMgr::UpdateScreen()

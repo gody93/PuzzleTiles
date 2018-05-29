@@ -2,9 +2,6 @@
 #define _DRAWMGR_H
 
 #include "SDL2/SDL.h"
-#include <iostream>
-#include <fstream>
-#include "Board.h"
 #include "Tile.h"
 
 
@@ -15,6 +12,7 @@ public:
 	~DrawMgr();
 	bool CreateWindow();
 	bool LoadMedia();
+    void DrawMenu();
 	void DrawScreenBackground();
 	void DrawBoard();
 	void DrawTile(Tile*,SDL_Surface*);

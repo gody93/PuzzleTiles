@@ -14,6 +14,7 @@ public:
 private:
 	Application();
 	static Application* app;
+    bool pressStart;
 };
 
 #endif

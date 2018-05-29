@@ -1,6 +1,6 @@
 #include "Application.h"
 
-Application::Application()
+Application::Application() : pressStart(false)
 {
 }
 
@@ -35,7 +35,11 @@ void Application::Start()
 	{
 		while (!quit)
 		{
-			if( !Board::getBoard()->getSuccess() )
+            if(!pressStart)
+            {
+                DrawMgr::getMgr()->getMgr()->DrawMenu();
+            }
+			else if( !Board::getBoard()->getSuccess() )
 			{
 				DrawMgr::getMgr()->DrawScreenBackground();
 
@@ -70,6 +74,7 @@ void Application::Start()
 				}
 				else if( ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_s ) )
 				{
+                    pressStart = true;
 					Board::getBoard()->startGame();
 				}
 			}
