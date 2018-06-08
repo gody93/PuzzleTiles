@@ -23,4 +23,24 @@ SDL_Surface* Button::getSurface()
     return this->background;
 }
 
+SDL_Rect& Button::getPos()
+{
+    return buttonPos;
+}
+
+void Button::setPos(int x, int y)
+{
+    buttonPos.x = x;
+    buttonPos.y = y;
+}
+
+int Button::getWidth() const
+{
+    return this->m_nButtonWidth;
+}
+
+int Button::getHeight() const
+{
+    return this->m_nButtonHeight;
+}
 #endif

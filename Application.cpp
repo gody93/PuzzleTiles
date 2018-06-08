@@ -20,8 +20,6 @@ Application* Application::getApp()
 	return app;
 }
 
-
-
 void Application::Start()
 {
 	SDL_Event e;
@@ -37,7 +35,7 @@ void Application::Start()
 		{
             if(!pressStart)
             {
-                DrawMgr::getMgr()->getMgr()->DrawMenu();
+                DrawMgr::getMgr()->DrawMenu();
             }
 			else if( !Board::getBoard()->getSuccess() )
 			{

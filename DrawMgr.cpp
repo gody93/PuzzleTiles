@@ -139,6 +139,16 @@ void DrawMgr::DrawBoard()
 	SDL_BlitSurface( boardBackground , NULL, screenSurface, &(Board::getBoard()->getPos()) );
 }
 
+void DrawMgr::DrawButtons(Button* button, SDL_Surface* surface)
+{
+    SDL_Rect h;
+	h.x = button->getPos().x;
+	h.y = button->getPos().y;
+	h.w = button->getWidth();
+	h.h = button->getHeight();
+	SDL_BlitSurface( button->getSurface(), &h, surface, &button->getPos() );
+}
+
 void DrawMgr::DrawTile(Tile* tile,SDL_Surface* surface)
 {
 	SDL_Rect h;

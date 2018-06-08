@@ -3,6 +3,7 @@
 
 #include "SDL2/SDL.h"
 #include "Tile.h"
+#include "Button.h"
 
 
 class DrawMgr
@@ -16,6 +17,7 @@ public:
 	void DrawScreenBackground();
 	void DrawBoard();
 	void DrawTile(Tile*,SDL_Surface*);
+	void DrawButtons(Button*,SDL_Surface*);
 	void UpdateScreen();
 	void LoadTileResources();
 	void DrawEndSplash();
